@@ -12,22 +12,23 @@ import com.teamdev.jxbrowser.chromium.events.ScriptContextEvent;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 
 public class SearchBrowser {
-   public static void main(String[] args) {
-       Browser browser = new Browser();
-       BrowserView browserView = new BrowserView(browser);
-       JFrame frame = new JFrame("Search smartphones");
-       frame.add(browserView, BorderLayout.CENTER);
-       frame.setSize(1100, 700);
-       frame.setVisible(true);
-       File file = new File("searchUI/search.html");
-       browser.loadURL("file://" + file.getAbsolutePath());
-       browser.addScriptContextListener(new ScriptContextAdapter() {
-   	    @Override
-   	    public void onScriptContextCreated(ScriptContextEvent event) {
-   	        Browser browser = event.getBrowser();
-   	        JSValue window = browser.executeJavaScriptAndReturnValue("window");
-   	        window.asObject().setProperty("java", new SearchInterface());
-   	    }
-   	});
-   }
+
+	public static void main(String[] args) {
+		Browser browser = new Browser();
+		BrowserView browserView = new BrowserView(browser);
+		JFrame frame = new JFrame("Search smartphones");
+		frame.add(browserView, BorderLayout.CENTER);
+		frame.setSize(1100, 700);
+		frame.setVisible(true);
+		File file = new File("searchUI/search.html");
+		browser.loadURL("file://" + file.getAbsolutePath());
+		browser.addScriptContextListener(new ScriptContextAdapter() {
+			@Override
+			public void onScriptContextCreated(ScriptContextEvent event) {
+				Browser browser = event.getBrowser();
+				JSValue window = browser.executeJavaScriptAndReturnValue("window");
+				window.asObject().setProperty("java", new SearchInterface(browser));
+			}
+		});
+	}
 }
