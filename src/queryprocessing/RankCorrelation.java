@@ -96,7 +96,7 @@ public class RankCorrelation {
 	}
 	
 	public static double kendaltau(double[] a, double[] b){
-		int d = 2 * (discordant(pairs(a), pairs(b)));
+		int d = discordant(pairs(a), pairs(b)) + discordant(pairs(b), pairs(a));
 		int k = a.length;
 		return 1 - ((double)2*d)/((double)k*(k-1));
 	}
