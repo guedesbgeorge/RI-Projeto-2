@@ -41,6 +41,7 @@ public class RankCorrelation {
 			output[i][0] = findIndex(aux, a[i]);
 			output[i][1] = a[i];
 		}
+		System.arraycopy(aux, 0, a, 0, aux.length);
 		return output;
 	}
 	
@@ -63,8 +64,8 @@ public class RankCorrelation {
 				}
 			}
 		}
+		
 		System.arraycopy(aux, 0, a, 0, aux.length);
-		a = aux;
 		return pairs;
 	}
 	
@@ -139,6 +140,9 @@ public class RankCorrelation {
 	 	System.out.println();
 	 	
 	 	printPairs(sortArray(e));
+	 	System.out.println();
+	 	
+	 	printPairs(pairs(e));
 	 	System.out.println();
 	 }
 }
