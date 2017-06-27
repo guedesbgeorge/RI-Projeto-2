@@ -1,5 +1,6 @@
 package invertedList;
 
 public enum TypeData {
-	PRICE;
+	PRICE, PRODUCT_NAME, OPERATING_SYSTEM, CONECTIVITE, INTERNET_CONNECTION, 
+	BATTERY_TYPE;
 }

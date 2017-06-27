@@ -44,15 +44,22 @@ public class BuildInvertedList {
 				{
 					this.getPriceData(lowercaseLine, fileName, position);
 				}
-				else if (line.contains(""))
+				else if (line.equals(""))
 				{
 					count++;
 					if (count >= 3)
 					{
-						System.out.println(position);
 						position++;
 						count = 0;
 					}
+				}
+				else if (lowercaseLine.contains("alimentacao") || lowercaseLine.contains("tipo de bateria"))
+				{
+					this.getBateryTag(lowercaseLine, fileName, position);
+				}
+				else if (lowercaseLine.contains("conectividade") || lowercaseLine.contains("conexão Internet"))
+				{
+					this.getConnectivityTag(lowercaseLine, fileName, position);
 				}
 				
 				line = br.readLine();
@@ -66,6 +73,35 @@ public class BuildInvertedList {
 	{
 		this.resultFile.write(this.invertedIndex.toString());
 		this.resultFile.close();
+	}
+	
+	private void getConnectivityTag(String line, String fileName, int position)
+	{
+		String values[] = line.split(";");
+		values = values[1].split(",");
+		for (int i = 0; i < values.length; i++)
+		{
+			String aux[] = values[i].split(" ");
+			String l = aux[0];
+			if (values[i].equals("wi-fi"))
+			{
+				l = "Wifi"; 
+			} 
+			else 
+			{
+				if (aux.length > 1) 
+				{
+					l = aux[0] + aux[1];
+				}
+			}
+			this.invertedIndex.insertInvertedIndex(TypeData.CONECTIVITE, l, fileName, position);
+		}
+	}
+	
+	private void getBateryTag(String line, String fileName, int position)
+	{
+		String value = line.split(";")[1];
+		//System.out.println(value);
 	}
 	
 	private void getPriceData(String lowercaseLine, String fileName, int position)
