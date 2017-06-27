@@ -16,9 +16,9 @@ public class SearchBrowser {
 	public static void main(String[] args) {
 		Browser browser = new Browser();
 		BrowserView browserView = new BrowserView(browser);
-		JFrame frame = new JFrame("Search smartphones");
+		JFrame frame = new JFrame("Pesquisar smartphones");
 		frame.add(browserView, BorderLayout.CENTER);
-		frame.setSize(1100, 700);
+		frame.setSize(1300, 700);
 		frame.setVisible(true);
 		File file = new File("searchUI/search.html");
 		browser.loadURL("file://" + file.getAbsolutePath());
