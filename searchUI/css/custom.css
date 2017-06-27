@@ -1,4 +1,31 @@
 form {
-	padding-top: 40px;
+	padding-top: 10px;
 	padding-left: 40px;
+}
+
+.left-column
+{
+float:left;
+width:50%;
+}
+.right-column
+{
+float:right;
+width:30%;
+}
+.center-column
+{
+margin:auto;
+width:20%;
+}
+
+.category
+{
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+
+.space
+{
+	margin-right: 15px;
 }
