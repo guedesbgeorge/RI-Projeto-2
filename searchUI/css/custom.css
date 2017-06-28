@@ -1,4 +1,12 @@
 form {
-	padding-top: 40px;
+	padding-top: 10px;
 	padding-left: 40px;
+}
+
+.category {
+	margin-top: 25px;
+}
+
+.space {
+	margin-right: 15px;
 }

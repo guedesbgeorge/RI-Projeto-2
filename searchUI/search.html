@@ -5,24 +5,54 @@
    <title>Search Form</title>
    <link href="css/bootstrap.min.css" rel="stylesheet">
    <link href="css/bootstrap-slider.min.css" rel="stylesheet">
+   <link href="css/bootstrap-select.min.css" rel="stylesheet">
    <link href="css/custom.css" rel="stylesheet">
 </head>
 <body>
 <form>
-  <div class="row">
+  <div class="row category">
     <div class="form-group col-xs-4 row">
       <label for="nome">Nome</label>
       <input class="form-control" id="nome" type="text">
     </div>
   </div>
 
-  <div class="row">
-    <div class="form-group col-xs-4 row"">
-      <label for="preco">Preço</label>
-      <div class="form-group">
-        <input class="form-control row" id="preco" type="number" data-provide="slider" name="preco" data-slider-min="0" data-slider-max="5000" data-slider-step="100" data-slider-value="1800" data-slider-tooltip="always">
-      </div>
+  <div class="row category">
+    <div class="form-group col-xs-4 row">
+      <label class="space" for="preco">Preço (R$)</label>
+        <input class="space" id="preco" type="number" data-provide="slider" name="preco" data-slider-min="0" data-slider-max="5000" data-slider-step="50" data-slider-value="1800" data-slider-tooltip="always">
     </div>
+  </div>
+
+  <div class="row category">
+    <div class="form-group col-xs-4 row"">
+      <label class="space" for="bateria">Bateria (mAh)</label>
+        <input class="form-control row" id="bateria" type="number" data-provide="slider" name="bateria" data-slider-min="0" data-slider-max="5000" data-slider-step="100" data-slider-value="1800" data-slider-tooltip="always">
+    </div>
+  </div>
+
+    <div class="row category">
+      <div class="form-group col-xs-4 row"">
+      <label class="space" for="so">Sistema operacional</label>
+        <select class="selectpicker" id="so">
+          <option>Android</option>
+          <option>iOS</option>
+          <option>Windows Phone</option>
+        </select>
+      </div>
+  </div>
+
+    <div class="row">
+      <div class="form-group col-xs-4 row"">
+      <label class="space" for="conectividade">Conectividade</label>
+        <select class="selectpicker" multiple id="conectividade">
+          <option>3G</option>
+          <option>4G</option>
+          <option>WiFi</option>
+          <option>Bluetooth</option>
+          <option>NFC</option>
+        </select>
+      </div>
   </div>
 
   <div class="row">
@@ -32,6 +62,7 @@
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/bootstrap-slider.min.js"></script>
+<script src="js/bootstrap-select.min.js"></script>
 <script src="js/functions.js"></script>
 </body>
 </html>
