@@ -16,27 +16,31 @@ public class BuildInvertedList {
 	private FileWriter resultFile;
 	private List<File> files;//files to be handled
 	private InvertedIndex invertedIndex;
+	private int[] tamCSVs;
 	
 	public BuildInvertedList(FileWriter resultFile, List<File> files)
 	{
 		this.resultFile = resultFile;
 		this.files = files;
 		this.invertedIndex = new InvertedIndex();
+		this.tamCSVs = new int[10];
 	}
 	
 	public void build() throws IOException
 	{
+		int count = 0;
 		for (File file : this.files) 
 		{
 			FileReader inputStream = new FileReader(file);
 			BufferedReader br = new BufferedReader(inputStream);
-			this.findPriceTag(br, file.getName());			
+			this.tamCSVs[count] = this.realBuild(br, file.getName());
+			count++;
 		}
 		
 		this.makeInvertedIndexCSV();
 	}
 		
-	private void findPriceTag(BufferedReader br, String fileName)
+	private int realBuild(BufferedReader br, String fileName)
 	{
 		String line;
 		try {
@@ -79,7 +83,9 @@ public class BuildInvertedList {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}	
+		}
+		
+		return position;
 	}
 	
 	private void makeInvertedIndexCSV() throws IOException
