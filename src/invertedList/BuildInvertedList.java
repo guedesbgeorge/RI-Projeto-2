@@ -33,31 +33,38 @@ public class BuildInvertedList {
 		
 	private void findPriceTag(BufferedReader br, String fileName)
 	{
-		String line, numero = "";
+		String line;
 		try {
 			line = br.readLine();
-			//System.out.println(line);
+			int position = 0, count = 0;
 			while(line != null)
 			{
 				String lowercaseLine = line.toLowerCase();
 				if (lowercaseLine.contains("preco"))
 				{
-					//Getting just the numerical part of price tag
-					String preco[] = lowercaseLine.split(";");
-					//System.out.println(preco[1]);
-					numero = preco[1].split(",")[0];
-					numero = numero.replaceAll("[^0-9]", "");
-					//System.out.println(numero);
-					
-					//type for price tag
-					this.invertedIndex.insertInvertedIndex(0, numero, fileName, 1); //ver como pegar filePosition
+					this.getPriceData(lowercaseLine, fileName, position);
 				}
-					
+				else if (line.equals(""))
+				{
+					count++;
+					if (count >= 3)
+					{
+						position++;
+						count = 0;
+					}
+				}
+				else if (lowercaseLine.contains("alimentacao") || lowercaseLine.contains("tipo de bateria"))
+				{
+					this.getBateryTag(lowercaseLine, fileName, position);
+				}
+				else if (lowercaseLine.contains("conectividade") || lowercaseLine.contains("conexão Internet"))
+				{
+					this.getConnectivityTag(lowercaseLine, fileName, position);
+				}
+				
 				line = br.readLine();
-				//System.out.println(line);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 	}
@@ -66,5 +73,48 @@ public class BuildInvertedList {
 	{
 		this.resultFile.write(this.invertedIndex.toString());
 		this.resultFile.close();
+	}
+	
+	private void getConnectivityTag(String line, String fileName, int position)
+	{
+		String values[] = line.split(";");
+		values = values[1].split(",");
+		for (int i = 0; i < values.length; i++)
+		{
+			String aux[] = values[i].split(" ");
+			String l = aux[0];
+			if (values[i].equals("wi-fi"))
+			{
+				l = "Wifi"; 
+			} 
+			else 
+			{
+				if (aux.length > 1) 
+				{
+					l = aux[0] + aux[1];
+				}
+			}
+			this.invertedIndex.insertInvertedIndex(TypeData.CONECTIVITE, l, fileName, position);
+		}
+	}
+	
+	private void getBateryTag(String line, String fileName, int position)
+	{
+		String value = line.split(";")[1];
+		//System.out.println(value);
+	}
+	
+	private void getPriceData(String lowercaseLine, String fileName, int position)
+	{
+		String numero = "";
+		//Getting just the numerical part of price tag
+		String preco[] = lowercaseLine.split(";");
+		
+		//remove de cents parts and de R$
+		numero = preco[1].split(",")[0];
+		numero = numero.replaceAll("[^0-9]", "");
+		
+
+		this.invertedIndex.insertInvertedIndex(TypeData.PRICE, numero, fileName, position);
 	}
 }
