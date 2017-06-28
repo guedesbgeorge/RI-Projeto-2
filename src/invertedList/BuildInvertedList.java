@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -70,6 +71,10 @@ public class BuildInvertedList {
 				{
 					this.getOS(lowercaseLine, fileName, position);
 				}
+				else if (lowercaseLine.contains("nome produto"))
+				{
+					this.getProductName(lowercaseLine, fileName, position);
+				}
 				
 				line = br.readLine();
 			}
@@ -78,12 +83,26 @@ public class BuildInvertedList {
 		}	
 	}
 	
-	
-	
 	private void makeInvertedIndexCSV() throws IOException
 	{
 		this.resultFile.write(this.invertedIndex.toString());
 		this.resultFile.close();
+	}
+	
+	private void getProductName(String line, String fileName, int position)
+	{
+		String aux = line.split(";")[1];
+		aux = aux.replaceAll("-", "");
+		String values[] = aux.split(" ");
+		
+		for (int i = 0; i < values.length; i++) 
+		{
+			if (!values[i].equals("")) 
+			{
+				System.out.println(values[i]);
+				this.invertedIndex.insertInvertedIndex(TypeData.PRODUCT_NAME, values[i], fileName, position);
+			}
+		}
 	}
 	
 	private void getOS(String line, String fileName, int position)
@@ -92,7 +111,7 @@ public class BuildInvertedList {
 		if (this.isNotNumeric(values))
 		{
 			values = values.split(" ")[0];
-			System.out.println(values);
+			//System.out.println(values);
 			this.invertedIndex.insertInvertedIndex(TypeData.OPERATING_SYSTEM, values, fileName, position);
 		}
 	}

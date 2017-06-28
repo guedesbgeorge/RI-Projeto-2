@@ -63,14 +63,33 @@ public class InvertedIndex {
 		{
 			this.insertOS(dataPosition, value, fileName);
 		}
+		else if (type.equals(TypeData.PRODUCT_NAME))
+		{
+			this.insertProductName(dataPosition, value, fileName);
+		}
 			
+	}
+	
+	private void insertProductName(int dataPosition, String value, String fileName)
+	{
+		String info = "Nome." + value;
+		TermData td = new TermData(dataPosition, 1, fileName);
+		IndexRow inRow = getRowIfExists(info);
+		
+		if (inRow == null)
+		{
+			this.indexRows.addElement(new IndexRow(info, td));
+		}
+		else 
+		{
+			inRow.addPosting(td);
+		}
 	}
 	
 	private void insertOS(int dataPosition, String value, String fileName)
 	{
 		for (IndexRow indexRow : indexRows) 
 		{
-			String aux = "Conexao." + value; 
 			if(indexRow.getWord().contains(value))
 			{
 				TermData td = new TermData(dataPosition, 1, fileName);
@@ -131,6 +150,17 @@ public class InvertedIndex {
 				}
 			}
 		}
+	}
+
+	private IndexRow getRowIfExists(String info)
+	{
+		for (IndexRow indexRow : this.indexRows) 
+		{
+			if (indexRow.getWord().equals(info))
+				return indexRow;
+		}
+		
+		return null;
 	}
 	
 	@Override
