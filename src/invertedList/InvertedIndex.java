@@ -171,6 +171,9 @@ public class InvertedIndex {
 		for (IndexRow indexRow : indexRows) {
 			sb.append(indexRow.getWord());
 			sb.append(";");
+			
+			sb.append(indexRow.getPosting().size());
+			
 			for (TermData posting : indexRow.getPosting()) {
 				sb.append(posting.toString());
 				sb.append(",");
