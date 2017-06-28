@@ -7,6 +7,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * 
+ * @author Allyson Manoel 
+ *
+ */
 public class BuildInvertedList {
 	private FileWriter resultFile;
 	private List<File> files;//files to be handled
@@ -94,14 +99,41 @@ public class BuildInvertedList {
 					l = aux[0] + aux[1];
 				}
 			}
-			this.invertedIndex.insertInvertedIndex(TypeData.CONECTIVITE, l, fileName, position);
+			this.invertedIndex.insertInvertedIndex(TypeData.CONNECTIVITE, l, fileName, position);
 		}
 	}
 	
 	private void getBateryTag(String line, String fileName, int position)
 	{
 		String value = line.split(";")[1];
-		//System.out.println(value);
+		
+		int pos = value.indexOf("mah");
+		
+		if (pos != -1)
+		{
+			value = value.substring(0, pos);
+			boolean whitespace = true;
+			int finalPos = 0;
+			for(int i = value.length() - 1; i >= 0; i--)
+			{
+				char aux = value.charAt(i); 
+				if((aux >= '0' && aux <= '9') || aux == '.')
+				{
+					
+					finalPos = i;
+				}	
+				else if (whitespace)
+				{
+					whitespace = false;
+				}
+				else break;
+					
+			}
+			value = value.substring(finalPos);
+			System.out.println(value);
+
+			this.invertedIndex.insertInvertedIndex(TypeData.BATTERY_TYPE, value, fileName, position);
+		}
 	}
 	
 	private void getPriceData(String lowercaseLine, String fileName, int position)
