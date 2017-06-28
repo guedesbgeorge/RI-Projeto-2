@@ -23,7 +23,7 @@ public class InvertedIndex {
 			this.indexRows.addElement(new IndexRow(preco));
 		}
 		
-		//make connectivite labels
+		//make connectivity labels
 		this.indexRows.add(new IndexRow("Conexao.Wifi"));
 		this.indexRows.add(new IndexRow("Conexao.3g"));
 		this.indexRows.add(new IndexRow("Conexao.4g"));
@@ -37,6 +37,10 @@ public class InvertedIndex {
 			this.indexRows.addElement(new IndexRow(battery));
 		}
 		
+		//make OS labels
+		this.indexRows.addElement(new IndexRow("OS.android"));
+		this.indexRows.addElement(new IndexRow("OS.ios"));
+		this.indexRows.addElement(new IndexRow("OS.windows_phone"));
 	}
 	
 	
@@ -55,7 +59,24 @@ public class InvertedIndex {
 		{
 			this.insertBattery(dataPosition, value, fileName);
 		}
+		else if (type.equals(TypeData.OPERATING_SYSTEM))
+		{
+			this.insertOS(dataPosition, value, fileName);
+		}
 			
+	}
+	
+	private void insertOS(int dataPosition, String value, String fileName)
+	{
+		for (IndexRow indexRow : indexRows) 
+		{
+			String aux = "Conexao." + value; 
+			if(indexRow.getWord().contains(value))
+			{
+				TermData td = new TermData(dataPosition, 1, fileName);
+				indexRow.addPosting(td);
+			}
+		}
 	}
 	
 	private void insertBattery(int dataPosition, String value, String fileName)

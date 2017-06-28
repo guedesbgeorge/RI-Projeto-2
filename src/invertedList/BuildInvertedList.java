@@ -66,6 +66,10 @@ public class BuildInvertedList {
 				{
 					this.getConnectivityTag(lowercaseLine, fileName, position);
 				}
+				else if (lowercaseLine.contains("sistema operacional") || lowercaseLine.contains("versão"))
+				{
+					this.getOS(lowercaseLine, fileName, position);
+				}
 				
 				line = br.readLine();
 			}
@@ -74,10 +78,23 @@ public class BuildInvertedList {
 		}	
 	}
 	
+	
+	
 	private void makeInvertedIndexCSV() throws IOException
 	{
 		this.resultFile.write(this.invertedIndex.toString());
 		this.resultFile.close();
+	}
+	
+	private void getOS(String line, String fileName, int position)
+	{
+		String values = line.split(";")[1];
+		if (this.isNotNumeric(values))
+		{
+			values = values.split(" ")[0];
+			System.out.println(values);
+			this.invertedIndex.insertInvertedIndex(TypeData.OPERATING_SYSTEM, values, fileName, position);
+		}
 	}
 	
 	private void getConnectivityTag(String line, String fileName, int position)
@@ -130,7 +147,7 @@ public class BuildInvertedList {
 					
 			}
 			value = value.substring(finalPos);
-			System.out.println(value);
+			//System.out.println(value);
 
 			this.invertedIndex.insertInvertedIndex(TypeData.BATTERY_TYPE, value, fileName, position);
 		}
@@ -148,5 +165,19 @@ public class BuildInvertedList {
 		
 
 		this.invertedIndex.insertInvertedIndex(TypeData.PRICE, numero, fileName, position);
+	}
+	
+	
+	private boolean isNotNumeric(String str) 
+	{
+		for (int i = 0; i < str.length(); i++) 
+		{
+			char aux = str.charAt(i); 
+			if(aux >= '0' && aux <= '9')
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 }
