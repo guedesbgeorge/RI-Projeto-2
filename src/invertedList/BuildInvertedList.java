@@ -70,6 +70,10 @@ public class BuildInvertedList {
 				{
 					this.getOS(lowercaseLine, fileName, position);
 				}
+				else if (lowercaseLine.contains("nome produto"))
+				{
+					this.getProductName(lowercaseLine, fileName, position);
+				}
 				
 				line = br.readLine();
 			}
@@ -78,12 +82,26 @@ public class BuildInvertedList {
 		}	
 	}
 	
-	
-	
 	private void makeInvertedIndexCSV() throws IOException
 	{
 		this.resultFile.write(this.invertedIndex.toString());
 		this.resultFile.close();
+	}
+	
+	private void getProductName(String line, String fileName, int position)
+	{
+		String aux = line.split(";")[1];
+		aux = aux.replaceAll("-", "");
+		String values[] = aux.split(" ");
+		
+		for (int i = 0; i < values.length; i++) 
+		{
+			if (!values[i].equals("")) 
+			{
+				//System.out.println(values[i]);
+				this.invertedIndex.insertInvertedIndex(TypeData.PRODUCT_NAME, values[i], fileName, position);
+			}
+		}
 	}
 	
 	private void getOS(String line, String fileName, int position)
@@ -92,7 +110,7 @@ public class BuildInvertedList {
 		if (this.isNotNumeric(values))
 		{
 			values = values.split(" ")[0];
-			System.out.println(values);
+			//System.out.println(values);
 			this.invertedIndex.insertInvertedIndex(TypeData.OPERATING_SYSTEM, values, fileName, position);
 		}
 	}
@@ -123,7 +141,6 @@ public class BuildInvertedList {
 	private void getBateryTag(String line, String fileName, int position)
 	{
 		String value = line.split(";")[1];
-		
 		int pos = value.indexOf("mah");
 		
 		if (pos != -1)
@@ -136,7 +153,6 @@ public class BuildInvertedList {
 				char aux = value.charAt(i); 
 				if((aux >= '0' && aux <= '9') || aux == '.')
 				{
-					
 					finalPos = i;
 				}	
 				else if (whitespace)
@@ -147,7 +163,7 @@ public class BuildInvertedList {
 					
 			}
 			value = value.substring(finalPos);
-			//System.out.println(value);
+			value = removePonto(value);
 
 			this.invertedIndex.insertInvertedIndex(TypeData.BATTERY_TYPE, value, fileName, position);
 		}
@@ -159,12 +175,14 @@ public class BuildInvertedList {
 		//Getting just the numerical part of price tag
 		String preco[] = lowercaseLine.split(";");
 		
-		//remove de cents parts and de R$
-		numero = preco[1].split(",")[0];
-		numero = numero.replaceAll("[^0-9]", "");
-		
-
-		this.invertedIndex.insertInvertedIndex(TypeData.PRICE, numero, fileName, position);
+		if (preco.length > 1)
+		{
+			//remove ,00 parts and de R$
+			numero = preco[1].split(",")[0];
+			numero = numero.replaceAll("[^0-9]", "");
+	
+			this.invertedIndex.insertInvertedIndex(TypeData.PRICE, numero, fileName, position);
+		}
 	}
 	
 	
@@ -179,5 +197,19 @@ public class BuildInvertedList {
 			}
 		}
 		return true;
+	}
+	
+	private String removePonto(String value)
+	{
+		String aux = "";
+
+		for (int i = 0; i < value.length(); i++) {
+			if (value.charAt(i) >= '0' && value.charAt(i) <= '9')
+			{
+				aux += value.charAt(i);
+			}
+		}
+
+		return aux;
 	}
 }

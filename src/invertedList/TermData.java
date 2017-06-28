@@ -40,9 +40,22 @@ public class TermData {
 		this.documentID = documentID;
 	}
 	
+	private String getId()
+	{
+		String aux = "";
+		for (int i = 0; i < this.documentID.length(); i++) 
+		{
+			if (this.documentID.charAt(i) == '.') break;
+			aux += this.documentID.charAt(i);
+		}
+		
+		return aux;
+	}
+	
 	@Override
 	public String toString()
 	{
-		return "[" + this.position + "," + this.frequency + "," + this.documentID + "]";
+		String doc = getId();
+		return "[" + this.position + "," + this.frequency + "," + doc + "]";
 	}
 }

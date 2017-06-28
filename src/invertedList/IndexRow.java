@@ -11,6 +11,13 @@ public class IndexRow {
 		this.word = word;
 		this.posting = new ArrayList<TermData>();
 	}
+	
+	public IndexRow(String word, TermData posting)
+	{
+		this.word = word;
+		this.posting = new ArrayList<TermData>();
+		this.posting.add(posting);
+	}
 
 	public String getWord() {
 		return word;
