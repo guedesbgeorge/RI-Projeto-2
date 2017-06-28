@@ -2,6 +2,9 @@ package userinterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.JSArray;
@@ -39,6 +42,32 @@ public class SearchInterface {
 	}
 	
 	public void fillResults(HashMap<Smartphone, Double> results) {
-		browser.executeJavaScript("changeButtonTitle('Worked from eclipse!')");
+		List<Smartphone> smartphones = results.entrySet().stream()
+			    						.sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+			 							.map(Map.Entry::getKey)
+			 							.collect(Collectors.toList());
+		browser.executeJavaScript("fillResults(" + smartphoneListToString(smartphones) + ")");
+	}
+	
+	private String smartphoneListToString(List<Smartphone> smartphones) {
+		String list = "[";
+		for(int i = 0; i < smartphones.size(); i++) {
+			Smartphone smartphone = smartphones.get(i);
+			list += "['" + smartphone.getNome() + "', '" + smartphone.getPreco() + "', '" + smartphone.getBateria() + "', '" + smartphone.getSo() + "', ";
+			List<String> conectividades = smartphone.getConectividades();
+			list += "['";
+			for(int j = 0; j < conectividades.size(); j++) {
+				list += conectividades.get(j);
+				
+				if(j < conectividades.size() - 1)
+					list += "', '";
+			}
+			list += "']]";
+			
+			if(i < smartphones.size() - 1)
+				list += ", ";
+		}
+		list += "]";
+		return list;
 	}
 }
