@@ -6,7 +6,7 @@ package queryprocessing;
 public class VectorSpaceModel {
 
     public double similarity() {
-
+    	return 0.0;
     }
 
     public double rankingTFIDF() {
