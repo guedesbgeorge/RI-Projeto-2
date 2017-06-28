@@ -10,9 +10,11 @@ import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.JSArray;
 
 import model.Smartphone;
+import queryprocessing.QueryEvaluation;
 
 public class SearchInterface {
 	private Browser browser;
+	private final int NUM_RESULTS = 10;
 	
 	public SearchInterface(Browser browser) {
 		this.browser = browser;
@@ -34,10 +36,12 @@ public class SearchInterface {
 				conect += ", ";
 		}
 		System.out.println("Conectividade: " + conect);
-		
-		HashMap<Smartphone, Double> results = new HashMap<>();
-		results.put(new Smartphone(nome, Double.parseDouble(preco), Double.parseDouble(bateria), so, conectividades), 3.0);
-		
+
+
+		Smartphone queryPhone = new Smartphone(nome, Double.parseDouble(preco), Double.parseDouble(bateria), so, conectividades);
+		QueryEvaluation queryEvaluation = new QueryEvaluation();
+		HashMap<Smartphone, Double> results = queryEvaluation.query(queryPhone, NUM_RESULTS);
+
 		fillResults(results);
 	}
 	
