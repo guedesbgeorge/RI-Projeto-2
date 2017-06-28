@@ -26,6 +26,14 @@ public class BuildInvertedList {
 		this.tamCSVs = new int[10];
 	}
 
+	public int getNumFiles() {
+		return this.files.size();
+	}
+
+	public int[] getTamCSVs() {
+		return this.tamCSVs;
+	}
+
 	public InvertedIndex getInvertedIndex() {
 		return this.invertedIndex;
 	}

@@ -15,6 +15,8 @@ import java.util.*;
  */
 public class QueryEvaluation {
     private InvertedIndex invertedIndex;
+    private int numFiles;
+    private int[] tamCSVs;
 
     private final boolean TFIDF_RANKING = true;
     private final boolean DOCUMENT_AT_ATIME = true;
@@ -36,6 +38,8 @@ public class QueryEvaluation {
             e.printStackTrace();
         } finally {
             this.invertedIndex = bil.getInvertedIndex();
+            this.numFiles = bil.getNumFiles();
+            this.tamCSVs = bil.getTamCSVs();
         }
     }
 
