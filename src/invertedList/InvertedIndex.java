@@ -13,6 +13,10 @@ public class InvertedIndex {
 		this.indexRows = new Vector<>();
 		setIndexRowDefaultElements();
 	}
+
+	public Vector<IndexRow> getIndexRows() {
+		return this.indexRows;
+	}
 	
 	private void setIndexRowDefaultElements()
 	{

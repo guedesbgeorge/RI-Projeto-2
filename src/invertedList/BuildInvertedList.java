@@ -23,6 +23,10 @@ public class BuildInvertedList {
 		this.files = files;
 		this.invertedIndex = new InvertedIndex();
 	}
+
+	public InvertedIndex getInvertedIndex() {
+		return this.invertedIndex;
+	}
 	
 	public void build() throws IOException
 	{
