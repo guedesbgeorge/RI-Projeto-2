@@ -7,6 +7,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * 
+ * @author Allyson Manoel 
+ *
+ */
 public class BuildInvertedList {
 	private FileWriter resultFile;
 	private List<File> files;//files to be handled
@@ -61,6 +66,10 @@ public class BuildInvertedList {
 				{
 					this.getConnectivityTag(lowercaseLine, fileName, position);
 				}
+				else if (lowercaseLine.contains("sistema operacional") || lowercaseLine.contains("versão"))
+				{
+					this.getOS(lowercaseLine, fileName, position);
+				}
 				
 				line = br.readLine();
 			}
@@ -69,10 +78,23 @@ public class BuildInvertedList {
 		}	
 	}
 	
+	
+	
 	private void makeInvertedIndexCSV() throws IOException
 	{
 		this.resultFile.write(this.invertedIndex.toString());
 		this.resultFile.close();
+	}
+	
+	private void getOS(String line, String fileName, int position)
+	{
+		String values = line.split(";")[1];
+		if (this.isNotNumeric(values))
+		{
+			values = values.split(" ")[0];
+			System.out.println(values);
+			this.invertedIndex.insertInvertedIndex(TypeData.OPERATING_SYSTEM, values, fileName, position);
+		}
 	}
 	
 	private void getConnectivityTag(String line, String fileName, int position)
@@ -94,14 +116,41 @@ public class BuildInvertedList {
 					l = aux[0] + aux[1];
 				}
 			}
-			this.invertedIndex.insertInvertedIndex(TypeData.CONECTIVITE, l, fileName, position);
+			this.invertedIndex.insertInvertedIndex(TypeData.CONNECTIVITE, l, fileName, position);
 		}
 	}
 	
 	private void getBateryTag(String line, String fileName, int position)
 	{
 		String value = line.split(";")[1];
-		//System.out.println(value);
+		
+		int pos = value.indexOf("mah");
+		
+		if (pos != -1)
+		{
+			value = value.substring(0, pos);
+			boolean whitespace = true;
+			int finalPos = 0;
+			for(int i = value.length() - 1; i >= 0; i--)
+			{
+				char aux = value.charAt(i); 
+				if((aux >= '0' && aux <= '9') || aux == '.')
+				{
+					
+					finalPos = i;
+				}	
+				else if (whitespace)
+				{
+					whitespace = false;
+				}
+				else break;
+					
+			}
+			value = value.substring(finalPos);
+			//System.out.println(value);
+
+			this.invertedIndex.insertInvertedIndex(TypeData.BATTERY_TYPE, value, fileName, position);
+		}
 	}
 	
 	private void getPriceData(String lowercaseLine, String fileName, int position)
@@ -116,5 +165,19 @@ public class BuildInvertedList {
 		
 
 		this.invertedIndex.insertInvertedIndex(TypeData.PRICE, numero, fileName, position);
+	}
+	
+	
+	private boolean isNotNumeric(String str) 
+	{
+		for (int i = 0; i < str.length(); i++) 
+		{
+			char aux = str.charAt(i); 
+			if(aux >= '0' && aux <= '9')
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 }
