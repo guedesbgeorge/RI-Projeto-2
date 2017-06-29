@@ -3,63 +3,121 @@
 <head>
    <meta charset="utf-8" />
    <title>Search Form</title>
-   <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-   <link href='http://fonts.googleapis.com/css?family=Roboto:300' rel='stylesheet' type='text/css'>
-   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-   <style>
-       body{
-           font:12px/15px Roboto, "Helvetica Neue", Helvetica, sans-serif;
-       }
-       select,
-       input,
-       .btn {
-           font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-       }
-       #wrapper{
-           margin:0 auto;
-       }
-       .main-form {
-           width: 360px;
-           min-height: 360px;
-           background: #fff;
-           border-radius: 60px;
-           margin:0px auto 20px;
-           padding: 20px;
-       }
-       .form-logo {
-           font-size: 100px;
-           color: #708090;
-       }
-   </style>
+   <link href="css/bootstrap.min.css" rel="stylesheet">
+   <link href="css/bootstrap-slider.min.css" rel="stylesheet">
+   <link href="css/bootstrap-select.min.css" rel="stylesheet">
+   <link href="css/custom.css" rel="stylesheet">
 </head>
 <body>
-<script>
-function print() {
-  var message = document.getElementById("message").value;
-  window.java.print(message);
-}
+<div class="container">
+  <div class="fixed">
+    <form>
+  <div class="row category clean">
+      <label for="nome">Nome</label>
+      <input class="form-control" id="nome" type="text">
+      <button class="btn btn-link btn-xs" type="button" data-toggle="popover" title="Recomendado" data-content="Smartphone Android, Android Tela, Android Câmera">Info</button>
+  </div>
 
-function changeButtonTitle(title) {
-    document.getElementById("search").innerHTML = title;
-}
-</script>
-<div id="wrapper">
-   <div class="main-form">
-       <form action="#" method="POST">
-           <fieldset>
-               <div class="form-body">
-                   <h1 class="form-title text-center">Print in Eclipse</h1>
-                   <div class="form-group">
-                       <input class="form-control" type="text" id="message" name="message" placeholder="Message here">
-                   </div>
-                   <div class="form-group text-center">
-                       <button class="btn btn-default btn-lg" id="search" name="search" type="button" onclick="print();">Print</button>
-                   </div>
-               </div>
-           </fieldset>
-       </form>
-   </div>
+  <div class="row category clean">
+      <label class="space" for="precoRange">Preço (R$)</label>
+        <select class="selectpicker" id="precoRange">
+          <option>1-300</option>
+          <option>301-600</option>
+          <option>601-900</option>
+          <option>901-1200</option>
+          <option>1201-1500</option>
+          <option>1501-1800</option>
+          <option>1801-2100</option>
+          <option>2101-2400</option>
+          <option>2401-2700</option>
+          <option>2701-3000</option>
+          <option>3001-3300</option>
+          <option>3301-3600</option>
+          <option>3601-3900</option>
+          <option>3901-4200</option>
+        </select>
+      <button class="btn btn-link btn-xs" type="button" data-toggle="popover" title="Recomendado" data-content="601-900, 901-1200, 301-600">Info</button>
+  </div>
+
+  <div class="row category clean">
+      <label class="space" for="bateriaRange">Bateria (mAh)</label>
+        <select class="selectpicker" id="bateriaRange">
+          <option>1-300</option>
+          <option>301-600</option>
+          <option>601-900</option>
+          <option>901-1200</option>
+          <option>1201-1500</option>
+          <option>1501-1800</option>
+          <option>1801-2100</option>
+          <option>2101-2400</option>
+          <option>2401-2700</option>
+          <option>2701-3000</option>
+          <option>3001-3300</option>
+          <option>3301-3600</option>
+          <option>3601-3900</option>
+          <option>3901-4200</option>
+          <option>4501-4800</option>
+          <option>4801-5100</option>
+        </select>
+      <button class="btn btn-link btn-xs" type="button" data-toggle="popover" title="Recomendado" data-content="2701-3000, 2401-2700, 3001-3300">Info</button>
+  </div>
+
+    <div class="row category clean">
+      <label class="space" for="so">Sistema operacional</label>
+        <select class="selectpicker" id="so">
+          <option>Android</option>
+          <option>iOS</option>
+          <option>Windows Phone</option>
+        </select>
+      <button class="btn btn-link btn-xs" type="button" data-toggle="popover" title="Recomendado" data-content="Android, iOS, Windows Phone">Info</button>
+  </div>
+
+    <div class="row category clean">
+      <label class="space" for="conectividade">Conectividade</label>
+        <select class="selectpicker" multiple id="conectividade">
+          <option>3G</option>
+          <option>4G</option>
+          <option>WiFi</option>
+          <option>Bluetooth</option>
+          <option>NFC</option>
+        </select>
+      <button class="btn btn-link btn-xs" type="button" data-toggle="popover" title="Recomendado" data-content="4G, WiFi, 3G">Info</button>
+  </div>
+
+  <div class="row" style="padding-top: 20px;">
+    <button class="btn btn-primary btn-lg" id="search" name="search" type="button" onclick="print();">Pesquisar</button>
+  </div>
+  <div class="row" style="padding-top: 20px;">
+    <button class="btn btn-secondary" id="clear" name="clear" type="button" onclick="clearResults();">Limpar resultados</button>
+  </div>
+</form>  
+  </div>
+  <div class="flex-item">
+    <h2>Resultados</h2>
+    <table class="table" id="resultados">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Preço</th>
+        <th>Bateria</th>
+        <th>Sistema Operacional</th>
+        <th>Conectividades</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+    </tbody>
+  </table>
+  </div>
 </div>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-slider.min.js"></script>
+<script src="js/bootstrap-select.min.js"></script>
+<script src="js/functions.js"></script>
+<script>
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();   
+});
+</script>
 </body>
 </html>

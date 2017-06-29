@@ -1,6 +1,8 @@
 package invertedList;
 
 import java.io.BufferedReader;
+import model.Smartphone;
+import java.util.ArrayList;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -18,14 +20,33 @@ public class BuildInvertedList {
 	private List<File> files;//files to be handled
 	private InvertedIndex invertedIndex;
 	private int[] tamCSVs;
+	private ArrayList<Smartphone> bancoSmartphones;
 	
 	public BuildInvertedList(FileWriter resultFile, List<File> files, FileWriter compressedResultFile)
 	{
+		this.bancoSmartphones = new ArrayList<>();
 		this.resultFile = resultFile;
 		this.files = files;
 		this.invertedIndex = new InvertedIndex();
 		this.tamCSVs = new int[10];
+
 		this.compressedResutFile = compressedResultFile;
+	}
+	
+	public ArrayList<Smartphone> getSmartphones(){
+		return this.bancoSmartphones;
+	}
+
+	public int getNumFiles() {
+		return this.files.size();
+	}
+
+	public int[] getTamCSVs() {
+		return this.tamCSVs;
+	}
+
+	public InvertedIndex getInvertedIndex() {
+		return this.invertedIndex;
 	}
 	
 	public void build() throws IOException
@@ -52,9 +73,15 @@ public class BuildInvertedList {
 			while(line != null)
 			{
 				String lowercaseLine = line.toLowerCase();
+				String preco, bateria, conectividade, so, nome = "";
+				conectividade = "";
+				preco = "";
+				so = "";
+				bateria = "";
+				
 				if (lowercaseLine.contains("preco"))
 				{
-					this.getPriceData(lowercaseLine, fileName, position);
+					preco = this.getPriceData(lowercaseLine, fileName, position);
 				}
 				else if (line.equals(""))
 				{
@@ -67,28 +94,31 @@ public class BuildInvertedList {
 				}
 				else if (lowercaseLine.contains("alimentacao") || lowercaseLine.contains("tipo de bateria"))
 				{
-					this.getBateryTag(lowercaseLine, fileName, position);
+					bateria = this.getBateryTag(lowercaseLine, fileName, position);
 				}
 				else if (lowercaseLine.contains("conectividade") || lowercaseLine.contains("conexão Internet"))
 				{
-					this.getConnectivityTag(lowercaseLine, fileName, position);
+					conectividade = this.getConnectivityTag(lowercaseLine, fileName, position);
 				}
 				else if (lowercaseLine.contains("sistema operacional") || lowercaseLine.contains("versão"))
 				{
-					this.getOS(lowercaseLine, fileName, position);
+					so = this.getOS(lowercaseLine, fileName, position);
 				}
 				else if (lowercaseLine.contains("nome produto"))
 				{
-					this.getProductName(lowercaseLine, fileName, position);
+					nome = this.getProductName(lowercaseLine, fileName, position);
 				}
-				
+				ArrayList<String> c = new ArrayList<>();
+				c.add(conectividade);
+				bancoSmartphones.add(new Smartphone(nome, preco, bateria, so, c));
 				line = br.readLine();
 			}
+			return position;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		return position;
+
+		return 0;
 	}
 	
 	private void makeCompressedInvertedIndexCSV() throws IOException
@@ -100,11 +130,12 @@ public class BuildInvertedList {
 	
 	private void makeInvertedIndexCSV() throws IOException
 	{
+		//System.out.println(this.invertedIndex.toString());
 		this.resultFile.write(this.invertedIndex.toString());
 		this.resultFile.close();
 	}
 	
-	private void getProductName(String line, String fileName, int position)
+	private String getProductName(String line, String fileName, int position)
 	{
 		String aux = line.split(";")[1];
 		aux = aux.replaceAll("-", "");
@@ -118,9 +149,10 @@ public class BuildInvertedList {
 				this.invertedIndex.insertInvertedIndex(TypeData.PRODUCT_NAME, values[i], fileName, position);
 			}
 		}
+		return aux;
 	}
 	
-	private void getOS(String line, String fileName, int position)
+	private String getOS(String line, String fileName, int position)
 	{
 		String values = line.split(";")[1];
 		if (this.isNotNumeric(values))
@@ -128,17 +160,20 @@ public class BuildInvertedList {
 			values = values.split(" ")[0];
 			//System.out.println(values);
 			this.invertedIndex.insertInvertedIndex(TypeData.OPERATING_SYSTEM, values, fileName, position);
+			return values;
 		}
+		return null;
 	}
 	
-	private void getConnectivityTag(String line, String fileName, int position)
+	private String getConnectivityTag(String line, String fileName, int position)
 	{
 		String values[] = line.split(";");
 		values = values[1].split(",");
+		String l = "";
 		for (int i = 0; i < values.length; i++)
 		{
 			String aux[] = values[i].split(" ");
-			String l = aux[0];
+			l = aux[0];
 			if (values[i].equals("wi-fi"))
 			{
 				l = "Wifi"; 
@@ -152,9 +187,10 @@ public class BuildInvertedList {
 			}
 			this.invertedIndex.insertInvertedIndex(TypeData.CONNECTIVITE, l, fileName, position);
 		}
+		return l;
 	}
 	
-	private void getBateryTag(String line, String fileName, int position)
+	private String getBateryTag(String line, String fileName, int position)
 	{
 		String value = line.split(";")[1];
 		int pos = value.indexOf("mah");
@@ -182,10 +218,12 @@ public class BuildInvertedList {
 			value = removePonto(value);
 
 			this.invertedIndex.insertInvertedIndex(TypeData.BATTERY_TYPE, value, fileName, position);
+			return value;
 		}
+		return null;
 	}
 	
-	private void getPriceData(String lowercaseLine, String fileName, int position)
+	private String getPriceData(String lowercaseLine, String fileName, int position)
 	{
 		String numero = "";
 		//Getting just the numerical part of price tag
@@ -198,7 +236,9 @@ public class BuildInvertedList {
 			numero = numero.replaceAll("[^0-9]", "");
 	
 			this.invertedIndex.insertInvertedIndex(TypeData.PRICE, numero, fileName, position);
+			return numero;
 		}
+		return null;
 	}
 	
 	

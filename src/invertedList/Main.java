@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Smartphone;
 
 public class Main {
 
@@ -20,6 +21,10 @@ public class Main {
 		
 		BuildInvertedList bil = new BuildInvertedList(resultFile, files, compressedResultFile);
 		bil.build();
+		ArrayList<Smartphone> sp = bil.getSmartphones();
+		for(int i = 0; i < sp.size(); i++){
+			System.out.println(sp.get(i).getSo());
+		}
 	}
 
 }

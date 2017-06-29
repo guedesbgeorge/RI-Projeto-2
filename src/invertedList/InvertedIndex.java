@@ -1,5 +1,8 @@
 package invertedList;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Vector;
 /**
  * 
@@ -7,11 +10,15 @@ import java.util.Vector;
  *
  */
 public class InvertedIndex {
-	private Vector<IndexRow> indexRows;
+	private HashMap<String, IndexRow> indexRows;
 	
 	public InvertedIndex() {
-		this.indexRows = new Vector<>();
+		this.indexRows = new HashMap<>();
 		setIndexRowDefaultElements();
+	}
+
+	public HashMap<String, IndexRow> getIndexRows() {
+		return this.indexRows;
 	}
 	
 	private void setIndexRowDefaultElements()
@@ -20,27 +27,27 @@ public class InvertedIndex {
 		for (int i = 0; i < 4000; i+=300)
 		{
 			String preco = "Preco[" + (i+1) + "-" + (i+300) +"]";
-			this.indexRows.addElement(new IndexRow(preco));
+			this.indexRows.put(preco, new IndexRow(preco));
 		}
 		
 		//make connectivity labels
-		this.indexRows.add(new IndexRow("Conexao.Wifi"));
-		this.indexRows.add(new IndexRow("Conexao.3g"));
-		this.indexRows.add(new IndexRow("Conexao.4g"));
-		this.indexRows.add(new IndexRow("Conexao.Bluetooth"));
-		this.indexRows.add(new IndexRow("Conexao.NFC"));
+		this.indexRows.put("Conexao.Wifi", new IndexRow("Conexao.Wifi"));
+		this.indexRows.put("Conexao.3g", new IndexRow("Conexao.3g"));
+		this.indexRows.put("Conexao.4g", new IndexRow("Conexao.4g"));
+		this.indexRows.put("Conexao.Bluetooth", new IndexRow("Conexao.Bluetooth"));
+		this.indexRows.put("Conexao.NFC", new IndexRow("Conexao.NFC"));
 		
 		//make battery labels
 		for (int i = 000; i < 5000; i+=300)
 		{
 			String battery = "Bateria[" + (i+1) + "-" + (i+300) +"]";
-			this.indexRows.addElement(new IndexRow(battery));
+			this.indexRows.put(battery, new IndexRow(battery));
 		}
 		
 		//make OS labels
-		this.indexRows.addElement(new IndexRow("OS.android"));
-		this.indexRows.addElement(new IndexRow("OS.ios"));
-		this.indexRows.addElement(new IndexRow("OS.windows_phone"));
+		this.indexRows.put("OS.android", new IndexRow("OS.android"));
+		this.indexRows.put("OS.ios", new IndexRow("OS.ios"));
+		this.indexRows.put("OS.windows_phone", new IndexRow("OS.windows_phone"));
 	}
 	
 	
@@ -78,7 +85,7 @@ public class InvertedIndex {
 		
 		if (inRow == null)
 		{
-			this.indexRows.addElement(new IndexRow(info, td));
+			this.indexRows.put(info, new IndexRow(info, td));
 		}
 		else 
 		{
@@ -88,22 +95,54 @@ public class InvertedIndex {
 	
 	private void insertOS(int dataPosition, String value, String fileName)
 	{
-		for (IndexRow indexRow : indexRows) 
+		Iterator it = indexRows.entrySet().iterator();
+		
+		while(it.hasNext()){
+			Map.Entry<String, IndexRow> pair = (Map.Entry<String, IndexRow>)it.next();
+			//System.out.println(pair.getKey());
+			//System.out.println(pair.getValue());
+			
+			if(pair.getKey().contains(value)){
+				TermData td = new TermData(dataPosition, 1, fileName);
+				pair.getValue().addPosting(td);
+			}
+		}
+		
+		/*for (IndexRow indexRow : indexRows) 
 		{
 			if(indexRow.getWord().contains(value))
 			{
 				TermData td = new TermData(dataPosition, 1, fileName);
 				indexRow.addPosting(td);
 			}
-		}
+		}*/
 	}
 	
 	private void insertBattery(int dataPosition, String value, String fileName)
 	{
 		double number = Double.parseDouble(value);
 		double position = Math.ceil(number/300);
+		Iterator it = indexRows.entrySet().iterator();
 		
 		double count = 0;
+		while(it.hasNext()){
+			Map.Entry<String, IndexRow> pair = (Map.Entry<String, IndexRow>)it.next();
+			
+			//System.out.println(pair.getKey());
+			//System.out.println(pair.getValue());
+			IndexRow indexRow = pair.getValue();
+			if(indexRow.getWord().startsWith("Bateria"))
+			{
+				count+=1;
+				if (count == position)
+				{
+					TermData td = new TermData(dataPosition, 1, fileName);
+					indexRow.addPosting(td);
+				}
+			}
+		}
+		
+		/*
 		for (IndexRow indexRow : indexRows) 
 		{
 			if(indexRow.getWord().startsWith("Bateria"))
@@ -115,11 +154,27 @@ public class InvertedIndex {
 					indexRow.addPosting(td);
 				}
 			}
-		}
+		}*/
 	}
 	
 	private void insertConnetivite(int dataPosition, String value, String fileName)
 	{
+		Iterator it = indexRows.entrySet().iterator();
+		
+		while(it.hasNext()){
+			Map.Entry<String, IndexRow> pair = (Map.Entry<String, IndexRow>)it.next();
+			//System.out.println(pair.getKey());
+			//System.out.println(pair.getValue());
+			IndexRow indexRow = pair.getValue();
+			String aux = "Conexao." + value; 
+			 
+			if(indexRow.getWord().contains(aux))
+			{
+				TermData td = new TermData(dataPosition, 1, fileName);
+				indexRow.addPosting(td);
+			}
+		}
+		/*
 		for (IndexRow indexRow : indexRows) 
 		{
 			String aux = "Conexao." + value; 
@@ -129,6 +184,7 @@ public class InvertedIndex {
 				indexRow.addPosting(td);
 			}
 		}
+		*/
 	}
 	
 	
@@ -138,6 +194,23 @@ public class InvertedIndex {
 		double position = Math.ceil(number/300);
 		
 		double count = 0;
+		Iterator it = indexRows.entrySet().iterator();
+		
+		while(it.hasNext()){
+			Map.Entry<String, IndexRow> pair = (Map.Entry<String, IndexRow>)it.next();
+			IndexRow indexRow = pair.getValue();
+			if(indexRow.getWord().startsWith("Preco"))
+			{
+				count+=1;
+				if (count == position)
+				{
+					TermData td = new TermData(dataPosition, 1, fileName);
+					indexRow.addPosting(td);
+					break;
+				}
+			}
+		}
+		/*
 		for (IndexRow indexRow : indexRows) 
 		{
 			if(indexRow.getWord().startsWith("Preco"))
@@ -150,17 +223,27 @@ public class InvertedIndex {
 					break;
 				}
 			}
-		}
+		}*/
 	}
 
 	private IndexRow getRowIfExists(String info)
 	{
+		Iterator it = indexRows.entrySet().iterator();
+		
+		while(it.hasNext()){
+			Map.Entry<String, IndexRow> pair = (Map.Entry<String, IndexRow>)it.next();
+			IndexRow indexRow = pair.getValue();
+			
+			if (indexRow.getWord().equals(info))
+				return indexRow;
+		}
+		/*
 		for (IndexRow indexRow : this.indexRows) 
 		{
 			if (indexRow.getWord().equals(info))
 				return indexRow;
 		}
-		
+		*/
 		return null;
 	}
 	
@@ -169,6 +252,26 @@ public class InvertedIndex {
 	{
 		StringBuilder sb = new StringBuilder();
 		
+		Iterator it = indexRows.entrySet().iterator();
+		
+		while(it.hasNext()){
+			Map.Entry<String, IndexRow> pair = (Map.Entry<String, IndexRow>)it.next();
+			IndexRow indexRow = pair.getValue();
+			
+			sb.append(indexRow.getWord());
+			sb.append(";");
+			
+			sb.append(indexRow.getPosting().size());
+			
+			for (TermData posting : indexRow.getPosting()) {
+				sb.append(posting.toString());
+				sb.append(",");
+			}
+			sb.setLength(sb.length() - 1);
+			sb.append("\n");
+		}
+
+		/*
 		for (IndexRow indexRow : indexRows) {
 			sb.append(indexRow.getWord());
 			sb.append(";");
@@ -182,6 +285,7 @@ public class InvertedIndex {
 			sb.setLength(sb.length() - 1);
 			sb.append("\n");
 		}
+		*/
 		
 		return sb.toString();
 	}
@@ -190,6 +294,25 @@ public class InvertedIndex {
 	{
 		StringBuilder sb = new StringBuilder();
 		
+		Iterator it = indexRows.entrySet().iterator();
+		
+		while(it.hasNext()){
+			Map.Entry<String, IndexRow> pair = (Map.Entry<String, IndexRow>)it.next();
+			IndexRow indexRow = pair.getValue();
+			
+			sb.append(indexRow.getWord());
+			sb.append(";");
+			
+			sb.append(indexRow.getPosting().size());
+			
+			for (TermData posting : indexRow.getPosting()) {
+				sb.append(posting.compressedToString(tamCSVs));
+				sb.append(",");
+			}
+			sb.setLength(sb.length() - 1);
+			sb.append("\n");
+		}
+			/*
 		for (IndexRow indexRow : indexRows) {
 			sb.append(indexRow.getWord());
 			sb.append(";");
@@ -203,7 +326,7 @@ public class InvertedIndex {
 			sb.setLength(sb.length() - 1);
 			sb.append("\n");
 		}
-		
+		*/
 		return sb.toString();
 	}
 }

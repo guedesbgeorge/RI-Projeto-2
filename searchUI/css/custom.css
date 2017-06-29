@@ -1,0 +1,25 @@
+form {
+	padding-top: 10px;
+}
+
+.category {
+	margin-top: 30px;
+}
+
+.space {
+	margin-right: 15px;
+}
+
+.clean {
+	padding-right: 50px;
+}
+
+.container{
+    display: flex;
+}
+.fixed{
+    width: 400px;
+}
+.flex-item{
+    flex-grow: 1;
+}
