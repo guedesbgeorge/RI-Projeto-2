@@ -77,7 +77,11 @@ public class QueryEvaluation {
                     TermData termData = filteredIndexRows.elementAt(k).getTermData();
                     if(termData.getDocumentID() == "docID") {
                         //update document score
-                        score = score + 1;
+                        if(TFIDF_RANKING) {
+                            score = score + 1;
+                        } else {
+                            score = score + 1;
+                        }
                     }
                     filteredIndexRows.elementAt(k).movePastDocument();
                 }
@@ -107,7 +111,12 @@ public class QueryEvaluation {
             List<TermData> postings = filteredIndexRows.elementAt(i).getPosting();
             for(int j = 0; j < postings.size(); j++) {
                 //get current document
-                //update hashmap score
+                Double oldScore = results.get(queryPhone);
+                if(TFIDF_RANKING) {
+                    results.replace(queryPhone, oldScore + 1);
+                } else {
+                    results.replace(queryPhone, oldScore + 1);
+                }
             }
         }
 
