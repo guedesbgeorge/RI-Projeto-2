@@ -9,11 +9,16 @@ public class TermData {
 	private int position;
 	private int frequency;
 	private String documentID;
+	private int docID;
 	
-	public TermData(int position, int frequency, String documentID) {
+	public TermData(int position, int frequency, String documentID, int docID) {
 		this.position = position;
 		this.frequency = frequency;
 		this.documentID = documentID;
+	}
+
+	public int getDocID() {
+		return this.docID;
 	}
 
 	public int getPosition() {

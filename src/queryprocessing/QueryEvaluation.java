@@ -16,8 +16,6 @@ import model.Smartphone;
  */
 public class QueryEvaluation {
     private InvertedIndex invertedIndex;
-    private int numFiles;
-    private int[] tamCSVs;
     private ArrayList<Smartphone> bancoSmartphones;
 
     private final boolean TFIDF_RANKING = true;
@@ -42,8 +40,6 @@ public class QueryEvaluation {
             e.printStackTrace();
         } finally {
             this.invertedIndex = bil.getInvertedIndex();
-            this.numFiles = bil.getNumFiles();
-            this.tamCSVs = bil.getTamCSVs();
         }
     }
 
@@ -83,16 +79,18 @@ public class QueryEvaluation {
                 System.out.println(i);
                 System.out.println(filteredIndexRows.elementAt(i).getWord());
                 TermData termData = filteredIndexRows.elementAt(i).getTermData();
-                if(termData.getDocumentID() == "docID") {
+                if(termData.getDocID() == docID) {
                     //update document score
                     if(TFIDF_RANKING) {
-                        //score = score + 1;
+                        score = score + 1;
                     } else {
                         score = score + 1;
                     }
                 }
                 filteredIndexRows.elementAt(i).movePastDocument(bancoSmartphones.size());
             }
+            Smartphone doc = bancoSmartphones.get(docID);
+            results.put(doc, score);
         }
 
         return results;
@@ -114,12 +112,14 @@ public class QueryEvaluation {
         for(int i = 0; i < filteredIndexRows.size(); i++) {
             List<TermData> postings = filteredIndexRows.elementAt(i).getPosting();
             for(int j = 0; j < postings.size(); j++) {
-                //get current document
-                //Double oldScore = results.get(queryPhone);
+                TermData termData = postings.get(j);
+                int docID = termData.getDocID();
+                Smartphone doc = bancoSmartphones.get(docID);
+                Double oldScore = results.get(doc);
                 if(TFIDF_RANKING) {
-                    //results.replace(queryPhone, oldScore + 1);
+                    results.replace(doc, oldScore + 1);
                 } else {
-                    //results.replace(queryPhone, oldScore + 1);
+                    results.replace(doc, oldScore + 1);
                 }
             }
         }

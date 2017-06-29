@@ -11,10 +11,12 @@ import java.util.Vector;
  */
 public class InvertedIndex {
 	private HashMap<String, IndexRow> indexRows;
+	private int curDocID;
 	
 	public InvertedIndex() {
 		this.indexRows = new HashMap<>();
 		setIndexRowDefaultElements();
+		this.curDocID = 0;
 	}
 
 	public HashMap<String, IndexRow> getIndexRows() {
@@ -53,34 +55,37 @@ public class InvertedIndex {
 	
 	public void insertInvertedIndex(TypeData type, String value, String fileName, int dataPosition)
 	{
+
+
 		//if price
 		if(type.equals(TypeData.PRICE))
 		{
-			this.insertPrice(dataPosition, value, fileName);
+			this.insertPrice(dataPosition, value, fileName, this.curDocID);
 		}
 		else if (type.equals(TypeData.CONNECTIVITE))
 		{
-			this.insertConnetivite(dataPosition, value, fileName);
+			this.insertConnetivite(dataPosition, value, fileName, this.curDocID);
 		}
 		else if (type.equals(TypeData.BATTERY_TYPE))
 		{
-			this.insertBattery(dataPosition, value, fileName);
+			this.insertBattery(dataPosition, value, fileName, this.curDocID);
 		}
 		else if (type.equals(TypeData.OPERATING_SYSTEM))
 		{
-			this.insertOS(dataPosition, value, fileName);
+			this.insertOS(dataPosition, value, fileName, this.curDocID);
 		}
 		else if (type.equals(TypeData.PRODUCT_NAME))
 		{
-			this.insertProductName(dataPosition, value, fileName);
+			this.insertProductName(dataPosition, value, fileName, this.curDocID);
 		}
-			
+
+		this.curDocID = this.curDocID + 1;
 	}
 	
-	private void insertProductName(int dataPosition, String value, String fileName)
+	private void insertProductName(int dataPosition, String value, String fileName, int docID)
 	{
 		String info = "Nome." + value;
-		TermData td = new TermData(dataPosition, 1, fileName);
+		TermData td = new TermData(dataPosition, 1, fileName, docID);
 		IndexRow inRow = getRowIfExists(info);
 		
 		if (inRow == null)
@@ -93,7 +98,7 @@ public class InvertedIndex {
 		}
 	}
 	
-	private void insertOS(int dataPosition, String value, String fileName)
+	private void insertOS(int dataPosition, String value, String fileName, int docID)
 	{
 		Iterator it = indexRows.entrySet().iterator();
 		
@@ -103,7 +108,7 @@ public class InvertedIndex {
 			//System.out.println(pair.getValue());
 			
 			if(pair.getKey().contains(value)){
-				TermData td = new TermData(dataPosition, 1, fileName);
+				TermData td = new TermData(dataPosition, 1, fileName, docID);
 				pair.getValue().addPosting(td);
 			}
 		}
@@ -118,7 +123,7 @@ public class InvertedIndex {
 		}*/
 	}
 	
-	private void insertBattery(int dataPosition, String value, String fileName)
+	private void insertBattery(int dataPosition, String value, String fileName, int docID)
 	{
 		double number = Double.parseDouble(value);
 		double position = Math.ceil(number/300);
@@ -136,7 +141,7 @@ public class InvertedIndex {
 				count+=1;
 				if (count == position)
 				{
-					TermData td = new TermData(dataPosition, 1, fileName);
+					TermData td = new TermData(dataPosition, 1, fileName, docID);
 					indexRow.addPosting(td);
 				}
 			}
@@ -157,7 +162,7 @@ public class InvertedIndex {
 		}*/
 	}
 	
-	private void insertConnetivite(int dataPosition, String value, String fileName)
+	private void insertConnetivite(int dataPosition, String value, String fileName, int docID)
 	{
 		Iterator it = indexRows.entrySet().iterator();
 		
@@ -170,7 +175,7 @@ public class InvertedIndex {
 			 
 			if(indexRow.getWord().contains(aux))
 			{
-				TermData td = new TermData(dataPosition, 1, fileName);
+				TermData td = new TermData(dataPosition, 1, fileName, docID);
 				indexRow.addPosting(td);
 			}
 		}
@@ -188,7 +193,7 @@ public class InvertedIndex {
 	}
 	
 	
-	private void insertPrice(int dataPosition, String value, String fileName)
+	private void insertPrice(int dataPosition, String value, String fileName, int docID)
 	{
 		double number = Double.parseDouble(value);
 		double position = Math.ceil(number/300);
@@ -204,7 +209,7 @@ public class InvertedIndex {
 				count+=1;
 				if (count == position)
 				{
-					TermData td = new TermData(dataPosition, 1, fileName);
+					TermData td = new TermData(dataPosition, 1, fileName, docID);
 					indexRow.addPosting(td);
 					break;
 				}
