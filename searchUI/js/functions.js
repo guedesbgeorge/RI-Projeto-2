@@ -1,10 +1,10 @@
 function print() {
 	var nome = $('#nome').val();
-	var preco = $("#preco").slider().val();
-	var bateria = $("#bateria").slider().val();
+	var precoRange = $("#precoRange").selectpicker().val();
+	var bateriaRange = $("#bateriaRange").selectpicker().val();
 	var so = $('#so').selectpicker().val();
 	var conectividade = $('#conectividade').selectpicker().val();
-  	window.java.pesquisar(nome, preco, bateria, so, conectividade);
+  	window.java.pesquisar(nome, precoRange, bateriaRange, so, conectividade);
 }
 
 function changeButtonTitle(title) {

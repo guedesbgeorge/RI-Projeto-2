@@ -1,16 +1,18 @@
 package queryprocessing;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Vector;
+
 import invertedList.BuildInvertedList;
 import invertedList.IndexRow;
 import invertedList.InvertedIndex;
 import invertedList.TermData;
 import model.Smartphone;
-import sun.tools.tree.DoubleExpression;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
 
 /**
  * Created by ianmanor on 28/06/17.

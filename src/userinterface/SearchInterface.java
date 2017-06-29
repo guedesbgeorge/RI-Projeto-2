@@ -19,10 +19,10 @@ public class SearchInterface {
 		this.browser = browser;
 	}
 	
-	public void pesquisar(String nome, String preco, String bateria, String so, JSArray conectividade) {
+	public void pesquisar(String nome, String precoRange, String bateriaRange, String so, JSArray conectividade) {
 		System.out.println("Nome: " + nome);
-		System.out.println("Preço: R$ " + preco);
-		System.out.println("Bateria (mAh): " + bateria);
+		System.out.println("Preço: R$ " + precoRange);
+		System.out.println("Bateria (mAh): " + bateriaRange);
 		System.out.println("Sistema Operacional: " + so);
 		
 		ArrayList<String> conectividades = new ArrayList<>();
@@ -37,7 +37,7 @@ public class SearchInterface {
 		System.out.println("Conectividade: " + conect);
 
 
-		Smartphone queryPhone = new Smartphone(nome, Double.parseDouble(preco), Double.parseDouble(bateria), so, conectividades);
+		Smartphone queryPhone = new Smartphone(nome, precoRange, bateriaRange, so, conectividades);
 		QueryEvaluation queryEvaluation = new QueryEvaluation();
 		HashMap<Smartphone, Double> results = queryEvaluation.query(queryPhone);
 
@@ -56,7 +56,7 @@ public class SearchInterface {
 		String list = "[";
 		for(int i = 0; i < smartphones.size(); i++) {
 			Smartphone smartphone = smartphones.get(i);
-			list += "['" + smartphone.getNome() + "', '" + smartphone.getPreco() + "', '" + smartphone.getBateria() + "', '" + smartphone.getSo() + "', ";
+			list += "['" + smartphone.getNome() + "', '" + smartphone.getPrecoRange() + "', '" + smartphone.getBateriaRange() + "', '" + smartphone.getSo() + "', ";
 			List<String> conectividades = smartphone.getConectividades();
 			list += "['";
 			for(int j = 0; j < conectividades.size(); j++) {

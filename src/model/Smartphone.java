@@ -4,16 +4,16 @@ import java.util.ArrayList;
 
 public class Smartphone {
 	String nome;
-	double preco;
-	double bateria;
+	String precoRange;
+	String bateriaRange;
 	String so;
 	ArrayList<String> conectividades;
 	
-	public Smartphone(String nome, double preco, double bateria, String so, ArrayList<String> conectividades) {
+	public Smartphone(String nome, String precoRange, String bateriaRange, String so, ArrayList<String> conectividades) {
 		super();
 		this.nome = nome;
-		this.preco = preco;
-		this.bateria = bateria;
+		this.precoRange = precoRange;
+		this.bateriaRange = bateriaRange;
 		this.so = so;
 		this.conectividades = conectividades;
 	}
@@ -26,20 +26,20 @@ public class Smartphone {
 		this.nome = nome;
 	}
 
-	public double getPreco() {
-		return preco;
+	public String getPrecoRange() {
+		return precoRange;
 	}
 
-	public void setPreco(double preco) {
-		this.preco = preco;
+	public void setPrecoRange(String precoRange) {
+		this.precoRange = precoRange;
 	}
 
-	public double getBateria() {
-		return bateria;
+	public String getBateriaRange() {
+		return bateriaRange;
 	}
 
-	public void setBateria(double bateria) {
-		this.bateria = bateria;
+	public void setBateriaRange(String bateriaRange) {
+		this.bateriaRange = bateriaRange;
 	}
 
 	public String getSo() {
