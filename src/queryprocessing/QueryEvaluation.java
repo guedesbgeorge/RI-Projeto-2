@@ -71,38 +71,6 @@ public class QueryEvaluation {
             IndexRow indexRow = indexRows.get(term);
             filteredIndexRows.addElement(indexRow);
         }
-        /*
-        for(int i = 0; i < indexRows.size(); i++) {
-        	//System.out.println(indexRows.elementAt(i).getTermData().getPosition());
-        	String posting = indexRows.elementAt(i).getWord();
-        	System.out.print(i + " ");
-        	System.out.println(posting);
-        	if(posting.indexOf(".") != -1){
-        		posting = posting.substring(posting.indexOf(".")+1, posting.length());
-        	}
-        	//System.out.println(posting);
-
-        	if(i <= 13){
-        		if(posting.equals(queryPhone.getTerms().get(3))) {
-        			filteredIndexRows.add(indexRows.elementAt(i));
-        		}
-        	}
-        	if(i > 13 && i < 19){
-        		if(queryPhone.getConectividades() != null && queryPhone.getConectividades().contains(posting)){
-        			filteredIndexRows.add(indexRows.elementAt(i));
-        		}
-        	}
-        	if(i >= 19 && i < 36){
-        		if(posting.contains(queryPhone.getTerms().get(1))){
-        			filteredIndexRows.add(indexRows.elementAt(i));
-        		}
-        	}
-        	if(i >= 36 && i < 40){
-        		if(posting.equals(queryPhone.getTerms().get(2))){
-        			filteredIndexRows.add(indexRows.elementAt(i));
-        		}
-        	}
-        }*/
 
         System.out.println("tamanho lista = " + filteredIndexRows.size());
 
@@ -127,23 +95,11 @@ public class QueryEvaluation {
             }
         }
 
-        /*
-        int docID = 0;
-        for(int i = 0; i < numFiles; i++) {
-            for(int j = 0; j < tamCSVs[i]; j++) {
-
-                docID = docID + 1;
-
-                //results.put(queryPhone, new Double(score));
-            }
-        }*/
-
         return results;
     }
 
     public HashMap<Smartphone, Double> termRetrieval(Query queryPhone) {
         HashMap<Smartphone, Double> results = new HashMap<>();
-
         HashMap<String, IndexRow> indexRows = this.invertedIndex.getIndexRows();
 
         Vector<IndexRow> filteredIndexRows = new Vector<>();
