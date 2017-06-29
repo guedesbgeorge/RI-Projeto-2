@@ -93,11 +93,12 @@ public class BuildInvertedList {
 				
 				line = br.readLine();
 			}
+			return position;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		return position;
+
+		return 0;
 	}
 	
 	private void makeInvertedIndexCSV() throws IOException
