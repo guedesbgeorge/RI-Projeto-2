@@ -9,26 +9,38 @@ import java.util.ArrayList;
  */
 public class Query {
     private ArrayList<String> terms;
-
+    private Smartphone sp;
     public Query(Smartphone smartphone) {
+    	this.sp = smartphone;
+    	
         this.terms = new ArrayList<>();
 
         String nome = smartphone.getNome();
-        // AJEITAR AQUI
-        //double bateria = smartphone.getBateria();
         
-        ArrayList<String> conectividades = smartphone.getConectividades();
-        for(int i = 0; i < conectividades.size(); i++) {
-            this.terms.add(conectividades.get(i));
-        }
+        String bateria = smartphone.getBateriaRange();
 
         String so = smartphone.getSo();
-        this.terms.add(so);
+        //this.terms.add(so);
 
-        // AJEITAR AQUI
-        //double preco = smartphone.getPreco();
+        String preco = smartphone.getPrecoRange();
+        
+        terms.add(nome);
+        terms.add(bateria);
+        terms.add(so);
+        terms.add(preco);
+
+        ArrayList<String> conectividades = smartphone.getConectividades();
+        if(conectividades != null){
+        	for(int i = 0; i < conectividades.size(); i++) {
+        		this.terms.add(conectividades.get(i));
+        	}
+        }
     }
-
+    
+    public ArrayList<String> getConectividades(){
+    	return this.sp.getConectividades();
+    }
+    
     public ArrayList<String> getTerms() {
         return this.terms;
     }

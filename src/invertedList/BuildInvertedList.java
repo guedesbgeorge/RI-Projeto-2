@@ -103,6 +103,7 @@ public class BuildInvertedList {
 	
 	private void makeInvertedIndexCSV() throws IOException
 	{
+		System.out.println(this.invertedIndex.toString());
 		this.resultFile.write(this.invertedIndex.toString());
 		this.resultFile.close();
 	}
