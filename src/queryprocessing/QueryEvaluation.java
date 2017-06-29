@@ -36,6 +36,14 @@ public class QueryEvaluation {
             bil = new BuildInvertedList(resultFile, files);
             bil.build();
             this.bancoSmartphones = bil.getSmartphones();
+            for(int i = 0; i < bancoSmartphones.size(); i++) {
+                System.out.println("nome: " + bancoSmartphones.get(i).getNome());
+                System.out.println("preco: " + bancoSmartphones.get(i).getPreco());
+                System.out.println("so: " + bancoSmartphones.get(i).getSo());
+                System.out.println("bateria: " + bancoSmartphones.get(i).getBateria());
+                System.out.println("conectividades: " + bancoSmartphones.get(i).getConectividades());
+
+            }
         } catch(IOException e) {
             e.printStackTrace();
         } finally {

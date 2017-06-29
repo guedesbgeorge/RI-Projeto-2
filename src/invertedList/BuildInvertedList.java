@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 
 /**
  * 
@@ -66,15 +67,19 @@ public class BuildInvertedList {
 		int position = 0, count = 0;
 		try {
 			line = br.readLine();
+			String preco, bateria, conectividade, so, nome;
+			ArrayList<String> c;
+			nome = "";
+			conectividade = "";
+			preco = "";
+			so = "";
+			bateria = "";
+			c = new ArrayList<>();
 			while(line != null)
 			{
 				String lowercaseLine = line.toLowerCase();
-				String preco, bateria, conectividade, so, nome = "";
-				conectividade = "";
-				preco = "";
-				so = "";
-				bateria = "";
-				
+
+
 				if (lowercaseLine.contains("preco"))
 				{
 					preco = this.getPriceData(lowercaseLine, fileName, position);
@@ -85,6 +90,44 @@ public class BuildInvertedList {
 					if (count >= 3)
 					{
 						position++;
+
+						double precoParsed = 1200;
+						if(!(preco == null || preco.equals(""))) {
+							precoParsed = Double.parseDouble(preco);
+						}
+
+						double bateriaParsed = 5000;
+						if(!(bateria == null || bateria.equals(""))) {
+							bateriaParsed = Double.parseDouble(preco);
+						}
+
+						if(c.size() == 0) {
+							c.add("3G");
+						}
+
+						if(so == null) {
+							Random rand = new Random();
+							int soRand = rand.nextInt(3);
+							switch (soRand) {
+								case 0:
+									so = "Android";
+									break;
+								case 1:
+									so = "iOS";
+									break;
+								case 2:
+									so = "Windows";
+									break;
+							}
+						}
+
+						bancoSmartphones.add(new Smartphone(nome, precoParsed, bateriaParsed, so, c));
+						nome = "";
+						conectividade = "";
+						preco = "";
+						so = "";
+						bateria = "";
+						c = new ArrayList<>();
 						count = 0;
 					}
 				}
@@ -95,6 +138,7 @@ public class BuildInvertedList {
 				else if (lowercaseLine.contains("conectividade") || lowercaseLine.contains("conexão Internet"))
 				{
 					conectividade = this.getConnectivityTag(lowercaseLine, fileName, position);
+					c.add(conectividade);
 				}
 				else if (lowercaseLine.contains("sistema operacional") || lowercaseLine.contains("versão"))
 				{
@@ -104,9 +148,7 @@ public class BuildInvertedList {
 				{
 					nome = this.getProductName(lowercaseLine, fileName, position);
 				}
-				ArrayList<String> c = new ArrayList<>();
-				c.add(conectividade);
-				bancoSmartphones.add(new Smartphone(nome, preco, bateria, so, c));
+
 				line = br.readLine();
 			}
 			return position;
