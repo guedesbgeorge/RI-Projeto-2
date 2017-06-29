@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 
 public class MutualInformationCalculator {
 	public static void main(String[] args) {
-		String csvFile = "invertedIndex/nome.csv";
-		String saida = "invertedIndex/nomeMutualInformation.csv";
+		String csvFile = "searchUI/mutualinformation/nome.csv";
+		String saida = "searchUI/mutualinformation/nomeMutualInformation.csv";
         String line = "";
         String cvsSplitBy = "],";
         String firtsSeparator = ";";
