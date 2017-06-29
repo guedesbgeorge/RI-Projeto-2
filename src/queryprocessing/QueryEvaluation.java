@@ -93,15 +93,21 @@ public class QueryEvaluation {
             Smartphone doc = bancoSmartphones.get(docID);
             results.put(doc, score);
         }
+        normalize(results);
 
-        //normalizing
-        Iterator it = results.entrySet().iterator();
-        while(it.hasNext()) {
-            Map.Entry<Smartphone, Double> pair = (Map.Entry<Smartphone, Double>) it.next();
-            results.replace(pair.getKey(), pair.getValue()/bancoSmartphones.size());
-        }
 
         return results;
+    }
+
+    private void normalize(HashMap<Smartphone, Double> results) {
+        //normalizing
+        if(!TFIDF_RANKING) {
+            Iterator it = results.entrySet().iterator();
+            while(it.hasNext()) {
+                Map.Entry<Smartphone, Double> pair = (Map.Entry<Smartphone, Double>) it.next();
+                results.replace(pair.getKey(), pair.getValue()/bancoSmartphones.size());
+            }
+        }
     }
 
     public HashMap<Smartphone, Double> termRetrieval(Query queryPhone) {
@@ -134,11 +140,7 @@ public class QueryEvaluation {
         }
 
         //normalizing
-        Iterator it = results.entrySet().iterator();
-        while(it.hasNext()) {
-            Map.Entry<Smartphone, Double> pair = (Map.Entry<Smartphone, Double>) it.next();
-            results.replace(pair.getKey(), pair.getValue()/bancoSmartphones.size());
-        }
+        normalize(results);
 
         return results;
     }
