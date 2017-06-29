@@ -185,4 +185,25 @@ public class InvertedIndex {
 		
 		return sb.toString();
 	}
+	
+	public String compressedToString(int tamCSVs[])
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		for (IndexRow indexRow : indexRows) {
+			sb.append(indexRow.getWord());
+			sb.append(";");
+			
+			sb.append(indexRow.getPosting().size());
+			
+			for (TermData posting : indexRow.getPosting()) {
+				sb.append(posting.compressedToString(tamCSVs));
+				sb.append(",");
+			}
+			sb.setLength(sb.length() - 1);
+			sb.append("\n");
+		}
+		
+		return sb.toString();
+	}
 }

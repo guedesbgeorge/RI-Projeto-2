@@ -14,16 +14,18 @@ import java.util.List;
  */
 public class BuildInvertedList {
 	private FileWriter resultFile;
+	private FileWriter compressedResutFile;
 	private List<File> files;//files to be handled
 	private InvertedIndex invertedIndex;
 	private int[] tamCSVs;
 	
-	public BuildInvertedList(FileWriter resultFile, List<File> files)
+	public BuildInvertedList(FileWriter resultFile, List<File> files, FileWriter compressedResultFile)
 	{
 		this.resultFile = resultFile;
 		this.files = files;
 		this.invertedIndex = new InvertedIndex();
 		this.tamCSVs = new int[10];
+		this.compressedResutFile = compressedResultFile;
 	}
 	
 	public void build() throws IOException
@@ -33,14 +35,15 @@ public class BuildInvertedList {
 		{
 			FileReader inputStream = new FileReader(file);
 			BufferedReader br = new BufferedReader(inputStream);
-			this.tamCSVs[count] = this.realBuild(br, file.getName());
+			this.tamCSVs[count] = this.bodyBuild(br, file.getName());
 			count++;
 		}
 		
 		this.makeInvertedIndexCSV();
+		this.makeCompressedInvertedIndexCSV();
 	}
 		
-	private int realBuild(BufferedReader br, String fileName)
+	private int bodyBuild(BufferedReader br, String fileName)
 	{
 		String line;
 		int position = 0, count = 0;
@@ -87,6 +90,13 @@ public class BuildInvertedList {
 		
 		return position;
 	}
+	
+	private void makeCompressedInvertedIndexCSV() throws IOException
+	{
+		this.compressedResutFile.write(this.invertedIndex.compressedToString(this.tamCSVs));
+		this.compressedResutFile.close();
+	}
+	
 	
 	private void makeInvertedIndexCSV() throws IOException
 	{

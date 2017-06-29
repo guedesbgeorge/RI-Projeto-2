@@ -58,4 +58,15 @@ public class TermData {
 		String doc = getId();
 		return "[" + this.position + "," + this.frequency + "," + doc + "]";
 	}
+	
+	public String compressedToString(int tamCSVs[])
+	{
+		int valor = this.position;
+		int doc = Integer.parseInt(getId());
+		for (int i = 0; i < doc; i++)
+		{
+			valor += tamCSVs[i];
+		}
+		return "[" + valor + "," + this.frequency + "]";
+	}
 }
