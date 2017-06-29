@@ -147,6 +147,7 @@ public class InvertedIndex {
 				{
 					TermData td = new TermData(dataPosition, 1, fileName);
 					indexRow.addPosting(td);
+					break;
 				}
 			}
 		}

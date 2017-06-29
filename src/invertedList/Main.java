@@ -13,7 +13,7 @@ public class Main {
 		List<File> files = new ArrayList<>();
 		
 		for (int i = 0; i < 10; i++) {
-			String fileName = "database/" + i+ ".csv";
+			String fileName = "database/" + i + ".csv";
 			files.add(new File(fileName));
 		}
 		
