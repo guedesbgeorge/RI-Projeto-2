@@ -15,6 +15,7 @@
   <div class="row category clean">
       <label for="nome">Nome</label>
       <input class="form-control" id="nome" type="text">
+      <button class="btn btn-link btn-xs" type="button" data-toggle="popover" title="Recomendado" data-content="Some content inside the popover">Info</button>
   </div>
 
   <div class="row category clean">
@@ -35,6 +36,7 @@
           <option>3601-3900</option>
           <option>3901-4200</option>
         </select>
+      <button class="btn btn-link btn-xs" type="button" data-toggle="popover" title="Recomendado" data-content="601-900, 901-1200, 301-600">Info</button>
   </div>
 
   <div class="row category clean">
@@ -57,6 +59,7 @@
           <option>4501-4800</option>
           <option>4801-5100</option>
         </select>
+      <button class="btn btn-link btn-xs" type="button" data-toggle="popover" title="Recomendado" data-content="2701-3000, 2401-2700, 3001-3300">Info</button>
   </div>
 
     <div class="row category clean">
@@ -66,6 +69,7 @@
           <option>iOS</option>
           <option>Windows Phone</option>
         </select>
+      <button class="btn btn-link btn-xs" type="button" data-toggle="popover" title="Recomendado" data-content="Android, iOS, Windows Phone">Info</button>
   </div>
 
     <div class="row category clean">
@@ -77,6 +81,7 @@
           <option>Bluetooth</option>
           <option>NFC</option>
         </select>
+      <button class="btn btn-link btn-xs" type="button" data-toggle="popover" title="Recomendado" data-content="4G, WiFi, 3G">Info</button>
   </div>
 
   <div class="row" style="padding-top: 20px;">
@@ -109,5 +114,10 @@
 <script src="js/bootstrap-slider.min.js"></script>
 <script src="js/bootstrap-select.min.js"></script>
 <script src="js/functions.js"></script>
+<script>
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();   
+});
+</script>
 </body>
 </html>
