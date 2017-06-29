@@ -31,7 +31,7 @@ public class IndexRow {
 		this.posting = new ArrayList<TermData>();
 		this.posting.add(posting);
 	}
-
+	
 	public String getWord() {
 		return word;
 	}

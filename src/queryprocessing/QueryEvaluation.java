@@ -57,13 +57,14 @@ public class QueryEvaluation {
         }
         return results;
     }
-
+    
     public HashMap<Smartphone, Double> documentRetrieval(Query queryPhone) {
         HashMap<Smartphone, Double> results = new HashMap<>();
-
-        Vector<IndexRow> indexRows = this.invertedIndex.getIndexRows();
+        /*
+        HashMap<String, IndexRow> indexRows = this.invertedIndex.getIndexRows();
+        
         Vector<IndexRow> filteredIndexRows = new Vector<>();
-
+        
         //filter index rows that dont contain query words
         for(int i = 0; i < indexRows.size(); i++) {
         	//System.out.println(indexRows.elementAt(i).getTermData().getPosition());
@@ -127,14 +128,14 @@ public class QueryEvaluation {
 
                 //results.put(queryPhone, new Double(score));
             }
-        }
+        }*/
 
         return results;
     }
 
     public HashMap<Smartphone, Double> termRetrieval(Query queryPhone) {
         HashMap<Smartphone, Double> results = new HashMap<>();
-
+        /*
         Vector<IndexRow> indexRows = this.invertedIndex.getIndexRows();
         Vector<IndexRow> filteredIndexRows = new Vector<>();
 
@@ -157,17 +158,19 @@ public class QueryEvaluation {
                 }
             }
         }
-
+	*/
         return results;
     }
 
     
     public static void main(String[] args) {
-		QueryEvaluation q = new QueryEvaluation();
+		/*QueryEvaluation q = new QueryEvaluation();
 		HashMap<Smartphone, Double> r = q.documentRetrieval(new Query(new Smartphone("", "", 0, "", 0, "", null)));
 		System.out.println(r.size());
 		for(int i = 0; i < r.size(); i++){
 			System.out.println(r.get(i).doubleValue());
-		}
+		}*/
+		
+		
 	}
 }
