@@ -14,7 +14,8 @@ public class Query {
         this.terms = new ArrayList<>();
 
         String nome = smartphone.getNome();
-        double bateria = smartphone.getBateria();
+        // AJEITAR AQUI
+        //double bateria = smartphone.getBateria();
         
         ArrayList<String> conectividades = smartphone.getConectividades();
         for(int i = 0; i < conectividades.size(); i++) {
@@ -24,7 +25,8 @@ public class Query {
         String so = smartphone.getSo();
         this.terms.add(so);
 
-        double preco = smartphone.getPreco();
+        // AJEITAR AQUI
+        //double preco = smartphone.getPreco();
     }
 
     public ArrayList<String> getTerms() {

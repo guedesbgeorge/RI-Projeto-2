@@ -56,7 +56,7 @@ public class SearchInterface {
 		String list = "[";
 		for(int i = 0; i < smartphones.size(); i++) {
 			Smartphone smartphone = smartphones.get(i);
-			list += "['" + smartphone.getNome() + "', '" + smartphone.getPrecoRange() + "', '" + smartphone.getBateriaRange() + "', '" + smartphone.getSo() + "', ";
+			list += "['" + smartphone.getNome() + "', '" + smartphone.getPreco() + "', '" + smartphone.getBateria() + "', '" + smartphone.getSo() + "', ";
 			List<String> conectividades = smartphone.getConectividades();
 			list += "['";
 			for(int j = 0; j < conectividades.size(); j++) {
