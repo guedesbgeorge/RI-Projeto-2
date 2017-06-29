@@ -3,7 +3,9 @@ package queryprocessing;
 import invertedList.BuildInvertedList;
 import invertedList.IndexRow;
 import invertedList.InvertedIndex;
+import invertedList.TermData;
 import model.Smartphone;
+import sun.tools.tree.DoubleExpression;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -43,26 +45,72 @@ public class QueryEvaluation {
         }
     }
 
-    public HashMap<Smartphone, Double> query(Smartphone queryPhone, int k) {
-        HashMap<Smartphone, Double> results = new HashMap<>();
+    public HashMap<Smartphone, Double> query(Smartphone queryPhone) {
+        HashMap<Smartphone, Double> results;
         if(DOCUMENT_AT_ATIME) {
-            documentRetrieval(k);
+            results = documentRetrieval(queryPhone);
         } else {
-            termRetrieval(k);
+            results = termRetrieval(queryPhone);
         }
-
-        results.put(queryPhone, 3.0);
         return results;
     }
 
-    public void documentRetrieval(int k) {
-        PriorityQueue R = new PriorityQueue(k);
-        Vector<IndexRow> indexRows = this.invertedIndex.getIndexRows();
+    public HashMap<Smartphone, Double> documentRetrieval(Smartphone queryPhone) {
+        HashMap<Smartphone, Double> results = new HashMap<>();
 
+        Vector<IndexRow> indexRows = this.invertedIndex.getIndexRows();
+        Vector<IndexRow> filteredIndexRows = new Vector<>();
+
+        //filter index rows that dont contain query words
+        for(int i = 0; i < indexRows.size(); i++) {
+            if(indexRows.elementAt(i).getWord().equals("")) {
+                filteredIndexRows.add(indexRows.elementAt(i));
+            }
+        }
+
+        //loop over documents
+        int docID = 0;
+        for(int i = 0; i < numFiles; i++) {
+            for(int j = 0; j < tamCSVs[i]; j++) {
+                double score = 0;
+                for(int k = 0; k < filteredIndexRows.size(); k++) {
+                    TermData termData = filteredIndexRows.elementAt(k).getTermData();
+                    if(termData.getDocumentID() == "docID") {
+                        //update document score
+                        score = score + 1;
+                    }
+                    filteredIndexRows.elementAt(k).movePastDocument();
+                }
+                docID = docID + 1;
+
+                results.put(queryPhone, new Double(score));
+            }
+        }
+
+        return results;
     }
 
-    public void termRetrieval(int k) {
-        PriorityQueue R = new PriorityQueue(k);
+    public HashMap<Smartphone, Double> termRetrieval(Smartphone queryPhone) {
+        HashMap<Smartphone, Double> results = new HashMap<>();
 
+        Vector<IndexRow> indexRows = this.invertedIndex.getIndexRows();
+        Vector<IndexRow> filteredIndexRows = new Vector<>();
+
+        //filter index rows that dont contain query words
+        for(int i = 0; i < indexRows.size(); i++) {
+            if(indexRows.elementAt(i).getWord().equals("")) {
+                filteredIndexRows.add(indexRows.elementAt(i));
+            }
+        }
+
+        for(int i = 0; i < filteredIndexRows.size(); i++) {
+            List<TermData> postings = filteredIndexRows.elementAt(i).getPosting();
+            for(int j = 0; j < postings.size(); j++) {
+                //get current document
+                //update hashmap score
+            }
+        }
+
+        return results;
     }
 }

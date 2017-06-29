@@ -14,7 +14,6 @@ import queryprocessing.QueryEvaluation;
 
 public class SearchInterface {
 	private Browser browser;
-	private final int NUM_RESULTS = 10;
 	
 	public SearchInterface(Browser browser) {
 		this.browser = browser;
@@ -40,7 +39,7 @@ public class SearchInterface {
 
 		Smartphone queryPhone = new Smartphone(nome, Double.parseDouble(preco), Double.parseDouble(bateria), so, conectividades);
 		QueryEvaluation queryEvaluation = new QueryEvaluation();
-		HashMap<Smartphone, Double> results = queryEvaluation.query(queryPhone, NUM_RESULTS);
+		HashMap<Smartphone, Double> results = queryEvaluation.query(queryPhone);
 
 		fillResults(results);
 	}
