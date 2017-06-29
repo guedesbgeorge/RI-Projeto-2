@@ -93,6 +93,13 @@ public class QueryEvaluation {
             results.put(doc, score);
         }
 
+        //normalizing
+        Iterator it = results.entrySet().iterator();
+        while(it.hasNext()) {
+            Map.Entry<Smartphone, Double> pair = (Map.Entry<Smartphone, Double>) it.next();
+            results.replace(pair.getKey(), pair.getValue()/bancoSmartphones.size());
+        }
+
         return results;
     }
 
@@ -122,6 +129,13 @@ public class QueryEvaluation {
                     results.replace(doc, oldScore + 1);
                 }
             }
+        }
+
+        //normalizing
+        Iterator it = results.entrySet().iterator();
+        while(it.hasNext()) {
+            Map.Entry<Smartphone, Double> pair = (Map.Entry<Smartphone, Double>) it.next();
+            results.replace(pair.getKey(), pair.getValue()/bancoSmartphones.size());
         }
 
         return results;
