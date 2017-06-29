@@ -82,7 +82,8 @@ public class QueryEvaluation {
                 if(termData.getDocID() == docID) {
                     //update document score
                     if(TFIDF_RANKING) {
-                        score = score + 1;
+                        double df = filteredIndexRows.elementAt(i).getPosting().size();
+                        score = score + termData.getFrequency()/df;
                     } else {
                         score = score + 1;
                     }
@@ -124,7 +125,8 @@ public class QueryEvaluation {
                 Smartphone doc = bancoSmartphones.get(docID);
                 Double oldScore = results.get(doc);
                 if(TFIDF_RANKING) {
-                    results.replace(doc, oldScore + 1);
+                    double df = filteredIndexRows.elementAt(i).getPosting().size();
+                    results.replace(doc, oldScore + termData.getFrequency()/df);
                 } else {
                     results.replace(doc, oldScore + 1);
                 }
