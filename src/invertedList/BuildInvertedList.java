@@ -55,9 +55,9 @@ public class BuildInvertedList {
 	private int realBuild(BufferedReader br, String fileName)
 	{
 		String line;
+		int position = 0, count = 0;
 		try {
 			line = br.readLine();
-			int position = 0, count = 0;
 			while(line != null)
 			{
 				String lowercaseLine = line.toLowerCase();
