@@ -18,9 +18,9 @@ public class IndexRow {
 		return posting.get(position);
 	}
 
-	public void movePastDocument() {
+	public void movePastDocument(int docNum) {
 		this.position = this.position + 1;
-		if(this.position >= this.posting.size()) {
+		if(this.position >= docNum) {
 			this.position = 0;
 		}
 	}

@@ -10,7 +10,7 @@ public class Smartphone {
 	double bateria;
 	String so;
 	ArrayList<String> conectividades;
-	
+
 	public Smartphone(String nome, String precoRange, String bateriaRange, String so, ArrayList<String> conectividades) {
 		this.nome = nome;
 		this.precoRange = precoRange;
@@ -20,7 +20,7 @@ public class Smartphone {
 		this.so = so;
 		this.conectividades = conectividades;
 	}
-	
+
 	public Smartphone(String nome, String precoRange, double preco, String bateriaRange, double bateria, String so, ArrayList<String> conectividades) {
 		this.nome = nome;
 		this.precoRange = precoRange;
@@ -85,5 +85,9 @@ public class Smartphone {
 
 	public void setBateria(double bateria) {
 		this.bateria = bateria;
+	}
+
+	public String toString(){
+		return nome + " " + precoRange + " " + bateriaRange + " " + so;
 	}
 }

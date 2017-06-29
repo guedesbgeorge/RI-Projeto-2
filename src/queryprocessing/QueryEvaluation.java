@@ -21,12 +21,14 @@ public class QueryEvaluation {
     private InvertedIndex invertedIndex;
     private int numFiles;
     private int[] tamCSVs;
+    private ArrayList<Smartphone> bancoSmartphones;
 
     private final boolean TFIDF_RANKING = true;
     private final boolean DOCUMENT_AT_ATIME = true;
 
     public QueryEvaluation() {
         BuildInvertedList bil = null;
+
         try {
             FileWriter resultFile = new FileWriter(new File("invertedIndex/saida.csv"));
             List<File> files = new ArrayList<>();
@@ -38,6 +40,7 @@ public class QueryEvaluation {
 
             bil = new BuildInvertedList(resultFile, files);
             bil.build();
+            this.bancoSmartphones = bil.getSmartphones();
         } catch(IOException e) {
             e.printStackTrace();
         } finally {
@@ -57,15 +60,21 @@ public class QueryEvaluation {
         }
         return results;
     }
-    
+
     public HashMap<Smartphone, Double> documentRetrieval(Query queryPhone) {
         HashMap<Smartphone, Double> results = new HashMap<>();
-        /*
+
         HashMap<String, IndexRow> indexRows = this.invertedIndex.getIndexRows();
-        
+
         Vector<IndexRow> filteredIndexRows = new Vector<>();
-        
+
         //filter index rows that dont contain query words
+        for(int i = 0; i < queryPhone.getTerms().size(); i++){
+            String term = queryPhone.getTerms().get(i);
+            IndexRow indexRow = indexRows.get(term);
+            filteredIndexRows.addElement(indexRow);
+        }
+        /*
         for(int i = 0; i < indexRows.size(); i++) {
         	//System.out.println(indexRows.elementAt(i).getTermData().getPosition());
         	String posting = indexRows.elementAt(i).getWord();
@@ -75,7 +84,7 @@ public class QueryEvaluation {
         		posting = posting.substring(posting.indexOf(".")+1, posting.length());
         	}
         	//System.out.println(posting);
-        	
+
         	if(i <= 13){
         		if(posting.equals(queryPhone.getTerms().get(3))) {
         			filteredIndexRows.add(indexRows.elementAt(i));
@@ -96,34 +105,36 @@ public class QueryEvaluation {
         			filteredIndexRows.add(indexRows.elementAt(i));
         		}
         	}
-        }
-        
+        }*/
+
         System.out.println("tamanho lista = " + filteredIndexRows.size());
-        
+
         //loop over documents
+        for(int docID = 0; docID < bancoSmartphones.size(); docID++) {
+            double score = 0;
+            for(int i = 0; i < filteredIndexRows.size(); i++) {
+                System.out.println();
+                System.out.println(docID);
+                System.out.println(i);
+                System.out.println(filteredIndexRows.elementAt(i).getWord());
+                TermData termData = filteredIndexRows.elementAt(i).getTermData();
+                if(termData.getDocumentID() == "docID") {
+                    //update document score
+                    if(TFIDF_RANKING) {
+                        //score = score + 1;
+                    } else {
+                        score = score + 1;
+                    }
+                }
+                filteredIndexRows.elementAt(i).movePastDocument(bancoSmartphones.size());
+            }
+        }
+
+        /*
         int docID = 0;
         for(int i = 0; i < numFiles; i++) {
             for(int j = 0; j < tamCSVs[i]; j++) {
-                double score = 0;
-                for(int k = 0; k < filteredIndexRows.size(); k++) {
-                	System.out.println();
-                	System.out.println(i);
-                	System.out.println(j);
-                	System.out.println(k);
-                	System.out.println(filteredIndexRows.elementAt(k).getWord());
-                	if(filteredIndexRows.elementAt(k+1).getTermData() == null){
-                    TermData termData = filteredIndexRows.elementAt(k+1).getTermData();
-                    if(termData.getDocumentID() == "docID") {
-                        //update document score
-                        if(TFIDF_RANKING) {
-                            //score = score + 1;
-                        } else {
-                            score = score + 1;
-                        }
-                    }
-                    filteredIndexRows.elementAt(k).movePastDocument();
-                	}
-                }
+
                 docID = docID + 1;
 
                 //results.put(queryPhone, new Double(score));
@@ -135,15 +146,16 @@ public class QueryEvaluation {
 
     public HashMap<Smartphone, Double> termRetrieval(Query queryPhone) {
         HashMap<Smartphone, Double> results = new HashMap<>();
-        /*
-        Vector<IndexRow> indexRows = this.invertedIndex.getIndexRows();
+
+        HashMap<String, IndexRow> indexRows = this.invertedIndex.getIndexRows();
+
         Vector<IndexRow> filteredIndexRows = new Vector<>();
 
         //filter index rows that dont contain query words
-        for(int i = 0; i < indexRows.size(); i++) {
-            if(indexRows.elementAt(i).getWord().equals("")) {
-                filteredIndexRows.add(indexRows.elementAt(i));
-            }
+        for(int i = 0; i < queryPhone.getTerms().size(); i++){
+            String term = queryPhone.getTerms().get(i);
+            IndexRow indexRow = indexRows.get(term);
+            filteredIndexRows.addElement(indexRow);
         }
 
         for(int i = 0; i < filteredIndexRows.size(); i++) {
@@ -158,19 +170,19 @@ public class QueryEvaluation {
                 }
             }
         }
-	*/
+
         return results;
     }
 
-    
+
     public static void main(String[] args) {
-		/*QueryEvaluation q = new QueryEvaluation();
-		HashMap<Smartphone, Double> r = q.documentRetrieval(new Query(new Smartphone("", "", 0, "", 0, "", null)));
-		System.out.println(r.size());
-		for(int i = 0; i < r.size(); i++){
-			System.out.println(r.get(i).doubleValue());
-		}*/
-		
-		
-	}
+        QueryEvaluation q = new QueryEvaluation();
+        HashMap<Smartphone, Double> r = q.documentRetrieval(new Query(new Smartphone("samsung", "", 0, "", 0, "android", null)));
+        System.out.println(r.size());
+        for(int i = 0; i < r.size(); i++){
+            //System.out.println(r.get(i).doubleValue());
+        }
+
+
+    }
 }
