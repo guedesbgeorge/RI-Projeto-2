@@ -47,15 +47,16 @@ public class QueryEvaluation {
 
     public HashMap<Smartphone, Double> query(Smartphone queryPhone) {
         HashMap<Smartphone, Double> results;
+        Query query = new Query(queryPhone);
         if(DOCUMENT_AT_ATIME) {
-            results = documentRetrieval(queryPhone);
+            results = documentRetrieval(query);
         } else {
-            results = termRetrieval(queryPhone);
+            results = termRetrieval(query);
         }
         return results;
     }
 
-    public HashMap<Smartphone, Double> documentRetrieval(Smartphone queryPhone) {
+    public HashMap<Smartphone, Double> documentRetrieval(Query queryPhone) {
         HashMap<Smartphone, Double> results = new HashMap<>();
 
         Vector<IndexRow> indexRows = this.invertedIndex.getIndexRows();
@@ -78,7 +79,7 @@ public class QueryEvaluation {
                     if(termData.getDocumentID() == "docID") {
                         //update document score
                         if(TFIDF_RANKING) {
-                            score = score + 1;
+                            //score = score + 1;
                         } else {
                             score = score + 1;
                         }
@@ -87,14 +88,14 @@ public class QueryEvaluation {
                 }
                 docID = docID + 1;
 
-                results.put(queryPhone, new Double(score));
+                //results.put(queryPhone, new Double(score));
             }
         }
 
         return results;
     }
 
-    public HashMap<Smartphone, Double> termRetrieval(Smartphone queryPhone) {
+    public HashMap<Smartphone, Double> termRetrieval(Query queryPhone) {
         HashMap<Smartphone, Double> results = new HashMap<>();
 
         Vector<IndexRow> indexRows = this.invertedIndex.getIndexRows();
@@ -111,11 +112,11 @@ public class QueryEvaluation {
             List<TermData> postings = filteredIndexRows.elementAt(i).getPosting();
             for(int j = 0; j < postings.size(); j++) {
                 //get current document
-                Double oldScore = results.get(queryPhone);
+                //Double oldScore = results.get(queryPhone);
                 if(TFIDF_RANKING) {
-                    results.replace(queryPhone, oldScore + 1);
+                    //results.replace(queryPhone, oldScore + 1);
                 } else {
-                    results.replace(queryPhone, oldScore + 1);
+                    //results.replace(queryPhone, oldScore + 1);
                 }
             }
         }
