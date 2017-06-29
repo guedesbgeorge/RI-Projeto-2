@@ -21,11 +21,11 @@ public class Smartphone {
 		this.conectividades = conectividades;
 	}
 
-	public Smartphone(String nome, String precoRange, double preco, String bateriaRange, double bateria, String so, ArrayList<String> conectividades) {
+	public Smartphone(String nome, double preco, double bateria, String so, ArrayList<String> conectividades) {
 		this.nome = nome;
-		this.precoRange = precoRange;
+		this.precoRange = "";
 		this.preco = preco;
-		this.bateriaRange = bateriaRange;
+		this.bateriaRange = "";
 		this.bateria = bateria;
 		this.so = so;
 		this.conectividades = conectividades;
@@ -88,6 +88,6 @@ public class Smartphone {
 	}
 
 	public String toString(){
-		return nome + " " + precoRange + " " + bateriaRange + " " + so;
+		return nome + " " + preco + " " + bateria + " " + so;
 	}
 }

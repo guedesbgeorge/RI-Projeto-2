@@ -3,10 +3,7 @@ package queryprocessing;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 import invertedList.BuildInvertedList;
 import invertedList.IndexRow;
@@ -177,12 +174,19 @@ public class QueryEvaluation {
 
     public static void main(String[] args) {
         QueryEvaluation q = new QueryEvaluation();
-        HashMap<Smartphone, Double> r = q.documentRetrieval(new Query(new Smartphone("samsung", "", 0, "", 0, "android", null)));
-        System.out.println(r.size());
-        for(int i = 0; i < r.size(); i++){
-            //System.out.println(r.get(i).doubleValue());
+        ArrayList<String> c = new ArrayList<>();
+        c.add("4G");
+        c.add("WiFi");
+        HashMap<Smartphone, Double> r = q.documentRetrieval(new Query(new Smartphone("samsung galaxy 4s", 3000.0, 1000.0, "Android", c)));
+        System.out.println(r.size() + " resultados");
+
+        Iterator it = r.entrySet().iterator();
+
+        while(it.hasNext()) {
+            Map.Entry<Smartphone, Double> pair = (Map.Entry<Smartphone, Double>) it.next();
+            System.out.println(pair.getKey().getNome());
+            System.out.println(pair.getValue());
+            System.out.println();
         }
-
-
     }
 }
