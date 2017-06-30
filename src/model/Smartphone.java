@@ -3,16 +3,14 @@ package model;
 import java.util.ArrayList;
 
 public class Smartphone {
-	String nome;
-	String precoRange;
-	double preco;
-	String bateriaRange;
-	double bateria;
-	String so;
-	ArrayList<String> conectividades;
-
-	double displayBateria;
-	double displayPreco;
+	private String nome;
+	private String precoRange;
+	private double preco;
+	private String bateriaRange;
+	private double bateria;
+	private String so;
+	private ArrayList<String> conectividades;
+	private int correlationID;
 
 	public Smartphone(String nome, String precoRange, String bateriaRange, String so, ArrayList<String> conectividades) {
 		this.nome = nome;
@@ -22,9 +20,7 @@ public class Smartphone {
 		this.bateria = 0.0;
 		this.so = so;
 		this.conectividades = conectividades;
-
-		this.displayBateria = 0.0;
-		this.displayPreco = 0.0;
+		this.correlationID = -1;
 	}
 
 	public Smartphone(String nome, double preco, double bateria, String so, ArrayList<String> conectividades) {
@@ -36,8 +32,15 @@ public class Smartphone {
 		this.so = so;
 		this.conectividades = conectividades;
 
-		this.displayBateria = 0.0;
-		this.displayPreco = 0.0;
+		this.correlationID = -1;
+	}
+
+	public int getCorrelationID() {
+		return this.correlationID;
+	}
+
+	public void setCorrelationID(int correlationID) {
+		this.correlationID = correlationID;
 	}
 
 	public String getNome() {
@@ -64,10 +67,6 @@ public class Smartphone {
 		return precoRange;
 	}
 
-	public void setPrecoRange(String precoRange) {
-		this.precoRange = precoRange;
-	}
-
 	public String getBateriaRange() {
 		if(!this.bateriaRange.equals("")) {
 			return "Bateria[" + this.bateriaRange + "]";
@@ -75,7 +74,7 @@ public class Smartphone {
 
 		String bateriaRange = "invalido";
 
-		for (int i = 000; i < 5000; i+=300)
+		for (int i = 0; i < 5000; i+=300)
 		{
 			if(bateria >= i + 1 && bateria <= i + 300) {
 				bateriaRange = "Bateria[" + (i+1) + "-" + (i+300) +"]";
@@ -85,24 +84,12 @@ public class Smartphone {
 		return bateriaRange;
 	}
 
-	public void setBateriaRange(String bateriaRange) {
-		this.bateriaRange = bateriaRange;
-	}
-
 	public String getSo() {
 		return so;
 	}
 
-	public void setSo(String so) {
-		this.so = so;
-	}
-
 	public ArrayList<String> getConectividades() {
 		return conectividades;
-	}
-
-	public void setConectividades(ArrayList<String> conectividades) {
-		this.conectividades = conectividades;
 	}
 
 	public double getPreco() {
@@ -123,21 +110,5 @@ public class Smartphone {
 
 	public String toString(){
 		return nome + " " + preco + " " + bateria + " " + so;
-	}
-
-	public double getDisplayBateria() {
-		return displayBateria;
-	}
-
-	public void setDisplayPreco(double preco) {
-		this.displayPreco = preco;
-	}
-
-	public double getDisplayPreco() {
-		return displayPreco;
-	}
-
-	public void setDisplayBateria(double bateria) {
-		this.displayBateria = bateria;
 	}
 }
