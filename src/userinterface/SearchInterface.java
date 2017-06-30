@@ -14,9 +14,12 @@ import queryprocessing.QueryEvaluation;
 
 public class SearchInterface {
 	private Browser browser;
+	private QueryEvaluation queryEvaluation;
 	
 	public SearchInterface(Browser browser) {
 		this.browser = browser;
+		this.queryEvaluation = new QueryEvaluation();
+		System.out.println("new query eval class");
 	}
 	
 	public void pesquisar(String nome, String precoRange, String bateriaRange, String so, JSArray conectividade) {
@@ -48,7 +51,7 @@ public class SearchInterface {
 		//c.add("Wifi");
 		//Smartphone queryPhone = new Smartphone("samsung galaxy 4s", 3000.0, 1000.0, "android", c);
 		Smartphone queryPhone = new Smartphone(nome, precoRange, bateriaRange, so.toLowerCase(), conectividades);
-		QueryEvaluation queryEvaluation = new QueryEvaluation();
+
 		HashMap<Smartphone, Double> results = queryEvaluation.query(queryPhone);
 		//HashMap<Smartphone, Double> results = new HashMap<>();
 
@@ -63,7 +66,7 @@ public class SearchInterface {
 			    						.sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
 			 							.map(Map.Entry::getKey)
 			 							.collect(Collectors.toList());
-		System.out.println(smartphonesSorted.size());
+		//System.out.println(smartphonesSorted.size());
 		for(int i = 0; i < smartphonesSorted.size(); i++) {
 			//System.out.println(smartphonesSorted.get(i));
 		}
@@ -89,22 +92,22 @@ public class SearchInterface {
 		String list = "[";
 
 
-		System.out.println("SIZE");
-		System.out.println(smartphones.size());
+		//System.out.println("SIZE");
+		//System.out.println(smartphones.size());
 
 		for(int i = 0; i < smartphones.size(); i++) {
 
-			System.out.println(i);
+			//System.out.println(i);
 
 			Smartphone smartphone = smartphones.get(i);
-			System.out.println(smartphone);
+			//System.out.println(smartphone);
 			String precoString = smartphone.getPrecoRange().substring(6, smartphone.getPrecoRange().length()-1);
 			String bateriaString = smartphone.getBateriaRange();
-			System.out.println(bateriaString);
+			//System.out.println(bateriaString);
 			if(!bateriaString.equals("invalido")) {
 				bateriaString = bateriaString.substring(6, smartphone.getBateriaRange().length()-1);
 			}
-			System.out.println(bateriaString);
+			//System.out.println(bateriaString);
 			list += "['" + smartphone.getNome().replace("\'", "") + "', '" + precoString + "', '" + bateriaString + "', '" + smartphone.getSo() + "', ";
 			List<String> conectividades = smartphone.getConectividades();
 			list += "['";

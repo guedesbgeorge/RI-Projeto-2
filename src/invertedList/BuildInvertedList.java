@@ -99,14 +99,13 @@ public class BuildInvertedList {
 							c.add("3G");
 						}
 
-						System.out.println("AAAAAAAAASEFASEFASFA");
-
+/*
 						System.out.println(nome);
 						System.out.println(preco);
 						System.out.println(bateria);
 						System.out.println(so);
 						System.out.println(c);
-
+*/
 						bancoSmartphones.add(new Smartphone(nome, preco, bateria, so, c));
 						//bancoSmartphones.get(bancoSmartphones.size()).setDisplayBateria(Double.parseDouble(bateria));
 						//bancoSmartphones.get(bancoSmartphones.size()).setDisplayPreco(Double.parseDouble(preco));
