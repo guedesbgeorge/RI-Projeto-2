@@ -70,7 +70,7 @@ public class Smartphone {
 
 	public String getBateriaRange() {
 		if(!this.bateriaRange.equals("")) {
-			return "Preco[" + this.bateriaRange + "]";
+			return "Bateria[" + this.bateriaRange + "]";
 		}
 
 		String bateriaRange = "invalido";

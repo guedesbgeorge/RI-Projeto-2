@@ -73,10 +73,10 @@ public class SearchInterface {
 
 		ArrayList<Smartphone> smartphones = new ArrayList<>();
 		for(int i = 0; (i < 10 || i < smartphones.size()); i++) {
-			System.out.println("RESULTADO " + i);
+			//System.out.println("RESULTADO " + i);
 			smartphones.add(smartphonesSorted.get(i));
 
-			System.out.println(smartphones.get(i));
+			//System.out.println(smartphones.get(i));
 		}
 
 		try {
@@ -105,7 +105,7 @@ public class SearchInterface {
 			String bateriaString = smartphone.getBateriaRange();
 			//System.out.println(bateriaString);
 			if(!bateriaString.equals("invalido")) {
-				bateriaString = bateriaString.substring(6, smartphone.getBateriaRange().length()-1);
+				bateriaString = bateriaString.substring(8, smartphone.getBateriaRange().length()-1);
 			}
 			//System.out.println(bateriaString);
 			list += "['" + smartphone.getNome().replace("\'", "") + "', '" + precoString + "', '" + bateriaString + "', '" + smartphone.getSo() + "', ";
@@ -123,8 +123,8 @@ public class SearchInterface {
 				list += ", ";
 		}
 		list += "]";
-		System.out.println("LISTA");
-		System.out.println(list);
+		//System.out.println("LISTA");
+		//System.out.println(list);
 		return list;
 	}
 }
