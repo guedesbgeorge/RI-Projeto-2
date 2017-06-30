@@ -99,11 +99,11 @@ public class SearchInterface {
 			Smartphone smartphone = smartphones.get(i);
 			System.out.println(smartphone);
 			String precoString = smartphone.getPrecoRange().substring(6, smartphone.getPrecoRange().length()-1);
-			String bateriaString = smartphone.getPrecoRange();
+			String bateriaString = smartphone.getBateriaRange();
+			System.out.println(bateriaString);
 			if(!bateriaString.equals("invalido")) {
 				bateriaString = bateriaString.substring(6, smartphone.getBateriaRange().length()-1);
 			}
-			System.out.println(precoString);
 			System.out.println(bateriaString);
 			list += "['" + smartphone.getNome().replace("\'", "") + "', '" + precoString + "', '" + bateriaString + "', '" + smartphone.getSo() + "', ";
 			List<String> conectividades = smartphone.getConectividades();
