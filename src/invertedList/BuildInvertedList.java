@@ -82,7 +82,11 @@ public class BuildInvertedList {
 
 				if (lowercaseLine.contains("preco"))
 				{
-					preco = this.getPriceData(lowercaseLine, fileName, position);
+					preco = this.getPriceData(lowercaseLine);
+					if(preco == null || preco.equals("")) {
+						preco = "2200";
+					}
+					insertPriceData(preco, fileName, position);
 				}
 				else if (line.equals(""))
 				{
@@ -91,37 +95,17 @@ public class BuildInvertedList {
 					{
 						position++;
 
-						double precoParsed = 1200;
-						if(!(preco == null || preco.equals(""))) {
-							precoParsed = Double.parseDouble(preco);
-						}
-
-						double bateriaParsed = 5000;
-						if(!(bateria == null || bateria.equals(""))) {
-							bateriaParsed = Double.parseDouble(preco);
-						}
-
 						if(c.size() == 0) {
 							c.add("3G");
 						}
 
-						if(so == null) {
-							Random rand = new Random();
-							int soRand = rand.nextInt(3);
-							switch (soRand) {
-								case 0:
-									so = "android";
-									break;
-								case 1:
-									so = "ios";
-									break;
-								case 2:
-									so = "windows_phone";
-									break;
-							}
-						}
+						//System.out.println(nome);
+						//System.out.println(preco);
+						//System.out.println(bateria);
+						//System.out.println(so);
+						//System.out.println(c);
 
-						bancoSmartphones.add(new Smartphone(nome, precoParsed, bateriaParsed, so, c));
+						bancoSmartphones.add(new Smartphone(nome, preco, bateria, so, c));
 						nome = "";
 						conectividade = "";
 						preco = "";
@@ -133,7 +117,11 @@ public class BuildInvertedList {
 				}
 				else if (lowercaseLine.contains("alimentacao") || lowercaseLine.contains("tipo de bateria"))
 				{
-					bateria = this.getBateryTag(lowercaseLine, fileName, position);
+					bateria = this.getBateryTag(lowercaseLine);
+					if(bateria == null || bateria.equals("")) {
+						bateria = "5000";
+					}
+					insertBatteryTag(bateria, fileName, position);
 				}
 				else if (lowercaseLine.contains("conectividade") || lowercaseLine.contains("conexão Internet"))
 				{
@@ -142,11 +130,30 @@ public class BuildInvertedList {
 				}
 				else if (lowercaseLine.contains("sistema operacional") || lowercaseLine.contains("versão"))
 				{
-					so = this.getOS(lowercaseLine, fileName, position);
+					so = this.getOS(lowercaseLine);
+
+					if(so == null) {
+						Random rand = new Random();
+						int soRand = rand.nextInt(3);
+						switch (soRand) {
+							case 0:
+								so = "android";
+								break;
+							case 1:
+								so = "ios";
+								break;
+							case 2:
+								so = "windows_phone";
+								break;
+						}
+					}
+
+					insertOS(so, fileName, position);
 				}
 				else if (lowercaseLine.contains("nome produto"))
 				{
-					nome = this.getProductName(lowercaseLine, fileName, position);
+					nome = this.getProductName(lowercaseLine);
+					insertProductName(nome, fileName, position);
 				}
 
 				line = br.readLine();
@@ -166,34 +173,41 @@ public class BuildInvertedList {
 		this.resultFile.close();
 	}
 	
-	private String getProductName(String line, String fileName, int position)
+	private String getProductName(String line)
 	{
 		String aux = line.split(";")[1];
 		aux = aux.replaceAll("-", "");
+
+		return aux;
+	}
+
+	private void insertProductName(String aux, String fileName, int position) {
 		String values[] = aux.split(" ");
-		
-		for (int i = 0; i < values.length; i++) 
+
+		for (int i = 0; i < values.length; i++)
 		{
-			if (!values[i].equals("")) 
+			if (!values[i].equals(""))
 			{
 				//System.out.println(values[i]);
 				this.invertedIndex.insertInvertedIndex(TypeData.PRODUCT_NAME, values[i], fileName, position, this.bancoSmartphones.size());
 			}
 		}
-		return aux;
 	}
 	
-	private String getOS(String line, String fileName, int position)
+	private String getOS(String line)
 	{
 		String values = line.split(";")[1];
 		if (this.isNotNumeric(values))
 		{
 			values = values.split(" ")[0];
 			//System.out.println(values);
-			this.invertedIndex.insertInvertedIndex(TypeData.OPERATING_SYSTEM, values, fileName, position, this.bancoSmartphones.size());
 			return values;
 		}
 		return null;
+	}
+
+	private void insertOS(String values, String fileName, int position) {
+		this.invertedIndex.insertInvertedIndex(TypeData.OPERATING_SYSTEM, values, fileName, position, this.bancoSmartphones.size());
 	}
 	
 	private String getConnectivityTag(String line, String fileName, int position)
@@ -216,12 +230,12 @@ public class BuildInvertedList {
 					l = aux[0] + aux[1];
 				}
 			}
-			this.invertedIndex.insertInvertedIndex(TypeData.CONNECTIVITE, l, fileName, position, this.bancoSmartphones.size());
-		}
+
+		}this.invertedIndex.insertInvertedIndex(TypeData.CONNECTIVITE, l, fileName, position, this.bancoSmartphones.size());
 		return l;
 	}
 	
-	private String getBateryTag(String line, String fileName, int position)
+	private String getBateryTag(String line)
 	{
 		String value = line.split(";")[1];
 		int pos = value.indexOf("mah");
@@ -248,13 +262,16 @@ public class BuildInvertedList {
 			value = value.substring(finalPos);
 			value = removePonto(value);
 
-			this.invertedIndex.insertInvertedIndex(TypeData.BATTERY_TYPE, value, fileName, position, this.bancoSmartphones.size());
 			return value;
 		}
 		return null;
 	}
+
+	private void insertBatteryTag(String value, String fileName, int position) {
+		this.invertedIndex.insertInvertedIndex(TypeData.BATTERY_TYPE, value, fileName, position, this.bancoSmartphones.size());
+	}
 	
-	private String getPriceData(String lowercaseLine, String fileName, int position)
+	private String getPriceData(String lowercaseLine)
 	{
 		String numero = "";
 		//Getting just the numerical part of price tag
@@ -266,10 +283,13 @@ public class BuildInvertedList {
 			numero = preco[1].split(",")[0];
 			numero = numero.replaceAll("[^0-9]", "");
 	
-			this.invertedIndex.insertInvertedIndex(TypeData.PRICE, numero, fileName, position, this.bancoSmartphones.size());
 			return numero;
 		}
 		return null;
+	}
+
+	private void insertPriceData(String numero, String fileName, int position) {
+		this.invertedIndex.insertInvertedIndex(TypeData.PRICE, numero, fileName, position, this.bancoSmartphones.size());
 	}
 	
 	

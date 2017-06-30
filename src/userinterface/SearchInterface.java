@@ -46,8 +46,11 @@ public class SearchInterface {
 		Smartphone queryPhone = new Smartphone(nome, precoRange, bateriaRange, so.toLowerCase(), conectividades);
 		QueryEvaluation queryEvaluation = new QueryEvaluation();
 		HashMap<Smartphone, Double> results = queryEvaluation.query(queryPhone);
+		//HashMap<Smartphone, Double> results = new HashMap<>();
 
-		fillResults(results);
+		//results.put(queryPhone, 3.0);
+
+				fillResults(results);
 	}
 	
 	public void fillResults(HashMap<Smartphone, Double> results) {

@@ -127,7 +127,11 @@ public class QueryEvaluation {
     }
 
     public HashMap<Smartphone, Double> termRetrieval(Query queryPhone) {
-        HashMap<Smartphone, Double> results = new HashMap<>();
+        Double[] scores = new Double[this.bancoSmartphones.size()];
+        for(int i = 0; i < scores.length; i++) {
+            scores[i] = new Double(0);
+        }
+
         HashMap<String, IndexRow> indexRows = this.invertedIndex.getIndexRows();
 
         Vector<IndexRow> filteredIndexRows = new Vector<>();
@@ -146,24 +150,31 @@ public class QueryEvaluation {
             for(int j = 0; j < postings.size(); j++) {
                 TermData termData = postings.get(j);
                 int docID = termData.getDocID();
-                Smartphone doc = bancoSmartphones.get(docID);
 
-                Double oldScore = results.get(doc);
-                System.out.print(doc);
-                System.out.print(oldScore);
+                Double oldScore = scores[docID];
+                System.out.println("docID " + docID);
+                System.out.println("oldScore " + oldScore);
                 if(TFIDF_RANKING) {
                     double df = filteredIndexRows.elementAt(i).getPosting().size();
-                    results.replace(doc, oldScore + termData.getFrequency()/df);
+                    scores[docID] = oldScore + termData.getFrequency()/df;
                 } else {
-                    results.replace(doc, oldScore + 1);
+                    System.out.println("results" + scores);
+
+                    scores[docID] = oldScore + 1;
                 }
             }
         }
 
-        //normalizing
-        normalize(results);
+        HashMap<Smartphone, Double> results_phones = new HashMap<>();
 
-        return results;
+        for(int i = 0; i < scores.length; i++) {
+            results_phones.put(this.bancoSmartphones.get(i), scores[i]);
+        }
+
+        //normalizing
+        normalize(results_phones);
+
+        return results_phones;
     }
 
 
@@ -172,7 +183,8 @@ public class QueryEvaluation {
         ArrayList<String> c = new ArrayList<>();
         c.add("4g");
         c.add("Wifi");
-        HashMap<Smartphone, Double> r = q.documentRetrieval(new Query(new Smartphone("samsung galaxy 4s", 3000.0, 1000.0, "android", c)));
+        HashMap<Smartphone, Double> r = q.query(new Smartphone("samsung galaxy 4s", 3000.0, 1000.0, "android", c));
+        System.out.println();
         System.out.println(r.size() + " resultados");
 
         Iterator it = r.entrySet().iterator();
