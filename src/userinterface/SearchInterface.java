@@ -42,8 +42,11 @@ public class SearchInterface {
 		}
 		System.out.println("Conectividade: " + conect);
 
-
-		Smartphone queryPhone = new Smartphone(nome, precoRange, bateriaRange, so.toLowerCase(), conectividades);
+		ArrayList<String> c = new ArrayList<>();
+		c.add("4g");
+		c.add("Wifi");
+		Smartphone queryPhone = new Smartphone("samsung galaxy 4s", 3000.0, 1000.0, "android", c);
+		Smartphone queryPhone_r = new Smartphone(nome, precoRange, bateriaRange, so.toLowerCase(), conectividades);
 		QueryEvaluation queryEvaluation = new QueryEvaluation();
 		HashMap<Smartphone, Double> results = queryEvaluation.query(queryPhone);
 		//HashMap<Smartphone, Double> results = new HashMap<>();
@@ -55,14 +58,20 @@ public class SearchInterface {
 	
 	public void fillResults(HashMap<Smartphone, Double> results) {
 		System.out.println(results.size());
-		List<Smartphone> smartphones = results.entrySet().stream()
+		List<Smartphone> smartphonesSorted = results.entrySet().stream()
 			    						.sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
 			 							.map(Map.Entry::getKey)
 			 							.collect(Collectors.toList());
-		System.out.println(smartphones.size());
-		for(int i = 0; i < smartphones.size(); i++) {
-			System.out.println(smartphones.get(i));
+		System.out.println(smartphonesSorted.size());
+		for(int i = 0; i < smartphonesSorted.size(); i++) {
+			System.out.println(smartphonesSorted.get(i));
 		}
+
+		ArrayList<Smartphone> smartphones = new ArrayList<>();
+		for(int i = 0; (i < 10 || i < smartphones.size()); i++) {
+			smartphones.add(smartphonesSorted.get(i));
+		}
+
 		browser.executeJavaScript("fillResults(" + smartphoneListToString(smartphones) + ")");
 	}
 	

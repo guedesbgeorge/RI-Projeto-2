@@ -18,8 +18,8 @@ public class QueryEvaluation {
     private InvertedIndex invertedIndex;
     private ArrayList<Smartphone> bancoSmartphones;
 
-    private final boolean TFIDF_RANKING = false;
-    private final boolean DOCUMENT_AT_ATIME = false;
+    private final boolean TFIDF_RANKING = true;
+    private final boolean DOCUMENT_AT_ATIME = true;
 
     public QueryEvaluation() {
         BuildInvertedList bil = null;
