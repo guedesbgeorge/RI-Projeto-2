@@ -45,8 +45,8 @@ public class SearchInterface {
 		ArrayList<String> c = new ArrayList<>();
 		c.add("4g");
 		c.add("Wifi");
-		Smartphone queryPhone = new Smartphone("samsung galaxy 4s", 3000.0, 1000.0, "android", c);
-		Smartphone queryPhone_r = new Smartphone(nome, precoRange, bateriaRange, so.toLowerCase(), conectividades);
+		//Smartphone queryPhone = new Smartphone("samsung galaxy 4s", 3000.0, 1000.0, "android", c);
+		Smartphone queryPhone = new Smartphone(nome, precoRange, bateriaRange, so.toLowerCase(), conectividades);
 		QueryEvaluation queryEvaluation = new QueryEvaluation();
 		HashMap<Smartphone, Double> results = queryEvaluation.query(queryPhone);
 		//HashMap<Smartphone, Double> results = new HashMap<>();
