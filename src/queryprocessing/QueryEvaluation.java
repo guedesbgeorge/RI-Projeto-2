@@ -18,7 +18,7 @@ public class QueryEvaluation {
     private InvertedIndex invertedIndex;
     private ArrayList<Smartphone> bancoSmartphones;
 
-    private final boolean TFIDF_RANKING = true;
+    private final boolean TFIDF_RANKING = false;
     private final boolean DOCUMENT_AT_ATIME = true;
 
     public QueryEvaluation() {
@@ -85,26 +85,29 @@ public class QueryEvaluation {
         //loop over documents
         for(int docID = 0; docID < bancoSmartphones.size(); docID++) {
             double score = 0;
+            System.out.println();
+            System.out.println("docID: " + docID);
             for(int i = 0; i < filteredIndexRows.size(); i++) {
-                System.out.println();
-                System.out.println(docID);
-                System.out.println(i);
-                System.out.println(filteredIndexRows.elementAt(i));
-                System.out.println(filteredIndexRows.elementAt(i).getWord());
-                TermData termData = filteredIndexRows.elementAt(i).getTermData();
-                if(termData.getDocID() == docID) {
-                    //update document score
-                    if(TFIDF_RANKING) {
-                        double df = filteredIndexRows.elementAt(i).getPosting().size();
-                        score = score + termData.getFrequency()/df;
-                    } else {
-                        score = score + 1;
+                IndexRow row = filteredIndexRows.elementAt(i);
+                System.out.println(row.getWord());
+                if(row.getPosition() < row.getPosting().size()) {
+                    TermData termData = row.getTermData();
+                    System.out.println("compared to docID " + termData.getDocID());
+                    if(termData.getDocID() == docID) {
+                        //update document score
+                        if(TFIDF_RANKING) {
+                            double df = row.getPosting().size();
+                            score = score + termData.getFrequency()/df;
+                        } else {
+                            score = score + 1;
+                        }
+                        row.movePastDocument(bancoSmartphones.size());
                     }
                 }
-                filteredIndexRows.elementAt(i).movePastDocument(bancoSmartphones.size());
             }
             Smartphone doc = bancoSmartphones.get(docID);
             results.put(doc, score);
+            System.out.println("Score: " + score);
         }
         normalize(results);
 
@@ -171,11 +174,20 @@ public class QueryEvaluation {
 
         Iterator it = r.entrySet().iterator();
 
+        double total = 0;
         while(it.hasNext()) {
             Map.Entry<Smartphone, Double> pair = (Map.Entry<Smartphone, Double>) it.next();
-            System.out.println(pair.getKey().getNome());
-            System.out.println(pair.getValue());
-            System.out.println();
+            if(pair.getValue().doubleValue() > 0) {
+                System.out.println(pair.getKey().getNome());
+                System.out.println(pair.getKey().getBateriaRange());
+                System.out.println(pair.getKey().getSo());
+                System.out.println(pair.getKey().getPrecoRange());
+                System.out.println(pair.getKey().getConectividades());
+                System.out.println(pair.getValue());
+                total = total + pair.getValue();
+                System.out.println();
+            }
         }
+        System.out.println("Total: "+total);
     }
 }

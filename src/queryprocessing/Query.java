@@ -25,6 +25,7 @@ public class Query {
         for(int i = 0; i < nomeTerms.size(); i++) {
             terms.add("Nome."+nomeTerms.get(i));
         }
+
         terms.add(bateriaRange);
         terms.add("OS."+so);
         terms.add(precoRange);

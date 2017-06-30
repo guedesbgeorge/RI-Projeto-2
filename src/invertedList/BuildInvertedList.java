@@ -177,7 +177,7 @@ public class BuildInvertedList {
 			if (!values[i].equals("")) 
 			{
 				//System.out.println(values[i]);
-				this.invertedIndex.insertInvertedIndex(TypeData.PRODUCT_NAME, values[i], fileName, position);
+				this.invertedIndex.insertInvertedIndex(TypeData.PRODUCT_NAME, values[i], fileName, position, this.bancoSmartphones.size());
 			}
 		}
 		return aux;
@@ -190,7 +190,7 @@ public class BuildInvertedList {
 		{
 			values = values.split(" ")[0];
 			//System.out.println(values);
-			this.invertedIndex.insertInvertedIndex(TypeData.OPERATING_SYSTEM, values, fileName, position);
+			this.invertedIndex.insertInvertedIndex(TypeData.OPERATING_SYSTEM, values, fileName, position, this.bancoSmartphones.size());
 			return values;
 		}
 		return null;
@@ -216,7 +216,7 @@ public class BuildInvertedList {
 					l = aux[0] + aux[1];
 				}
 			}
-			this.invertedIndex.insertInvertedIndex(TypeData.CONNECTIVITE, l, fileName, position);
+			this.invertedIndex.insertInvertedIndex(TypeData.CONNECTIVITE, l, fileName, position, this.bancoSmartphones.size());
 		}
 		return l;
 	}
@@ -248,7 +248,7 @@ public class BuildInvertedList {
 			value = value.substring(finalPos);
 			value = removePonto(value);
 
-			this.invertedIndex.insertInvertedIndex(TypeData.BATTERY_TYPE, value, fileName, position);
+			this.invertedIndex.insertInvertedIndex(TypeData.BATTERY_TYPE, value, fileName, position, this.bancoSmartphones.size());
 			return value;
 		}
 		return null;
@@ -266,7 +266,7 @@ public class BuildInvertedList {
 			numero = preco[1].split(",")[0];
 			numero = numero.replaceAll("[^0-9]", "");
 	
-			this.invertedIndex.insertInvertedIndex(TypeData.PRICE, numero, fileName, position);
+			this.invertedIndex.insertInvertedIndex(TypeData.PRICE, numero, fileName, position, this.bancoSmartphones.size());
 			return numero;
 		}
 		return null;

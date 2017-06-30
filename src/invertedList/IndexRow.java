@@ -14,13 +14,17 @@ public class IndexRow {
 		this.position = 0;
 	}
 
+	public int getPosition() {
+		return this.position;
+	}
+
 	public TermData getTermData() {
 		return posting.get(position);
 	}
 
-	public void movePastDocument(int docNum) {
+	public void movePastDocument(int maxDocNum) {
 		this.position = this.position + 1;
-		if(this.position >= docNum) {
+		if(this.position >= maxDocNum) {
 			this.position = 0;
 		}
 	}

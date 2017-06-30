@@ -11,12 +11,10 @@ import java.util.Vector;
  */
 public class InvertedIndex {
 	private HashMap<String, IndexRow> indexRows;
-	private int curDocID;
 	
 	public InvertedIndex() {
 		this.indexRows = new HashMap<>();
 		setIndexRowDefaultElements();
-		this.curDocID = 0;
 	}
 
 	public HashMap<String, IndexRow> getIndexRows() {
@@ -53,33 +51,32 @@ public class InvertedIndex {
 	}
 	
 	
-	public void insertInvertedIndex(TypeData type, String value, String fileName, int dataPosition)
+	public void insertInvertedIndex(TypeData type, String value, String fileName, int dataPosition, int curDocID)
 	{
 
 
 		//if price
 		if(type.equals(TypeData.PRICE))
 		{
-			this.insertPrice(dataPosition, value, fileName, this.curDocID);
+			this.insertPrice(dataPosition, value, fileName, curDocID);
 		}
 		else if (type.equals(TypeData.CONNECTIVITE))
 		{
-			this.insertConnetivite(dataPosition, value, fileName, this.curDocID);
+			this.insertConnetivite(dataPosition, value, fileName, curDocID);
 		}
 		else if (type.equals(TypeData.BATTERY_TYPE))
 		{
-			this.insertBattery(dataPosition, value, fileName, this.curDocID);
+			this.insertBattery(dataPosition, value, fileName, curDocID);
 		}
 		else if (type.equals(TypeData.OPERATING_SYSTEM))
 		{
-			this.insertOS(dataPosition, value, fileName, this.curDocID);
+			this.insertOS(dataPosition, value, fileName, curDocID);
 		}
 		else if (type.equals(TypeData.PRODUCT_NAME))
 		{
-			this.insertProductName(dataPosition, value, fileName, this.curDocID);
+			this.insertProductName(dataPosition, value, fileName, curDocID);
 		}
 
-		this.curDocID = this.curDocID + 1;
 	}
 	
 	private void insertProductName(int dataPosition, String value, String fileName, int docID)

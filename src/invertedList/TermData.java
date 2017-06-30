@@ -15,6 +15,7 @@ public class TermData {
 		this.position = position;
 		this.frequency = frequency;
 		this.documentID = documentID;
+		this.docID = docID;
 	}
 
 	public int getDocID() {

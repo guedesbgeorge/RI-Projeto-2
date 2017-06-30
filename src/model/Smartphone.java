@@ -40,6 +40,10 @@ public class Smartphone {
 	}
 
 	public String getPrecoRange() {
+		if(!this.precoRange.equals("")) {
+			return "Preco[" + this.precoRange + "]";
+		}
+
 		String precoRange = "invalido";
 		for (int i = 0; i < 4000; i+=300)
 		{
@@ -56,6 +60,10 @@ public class Smartphone {
 	}
 
 	public String getBateriaRange() {
+		if(!this.bateriaRange.equals("")) {
+			return "Preco[" + this.bateriaRange + "]";
+		}
+
 		String bateriaRange = "invalido";
 
 		for (int i = 000; i < 5000; i+=300)
