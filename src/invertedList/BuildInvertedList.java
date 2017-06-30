@@ -110,13 +110,13 @@ public class BuildInvertedList {
 							int soRand = rand.nextInt(3);
 							switch (soRand) {
 								case 0:
-									so = "Android";
+									so = "android";
 									break;
 								case 1:
-									so = "iOS";
+									so = "ios";
 									break;
 								case 2:
-									so = "Windows";
+									so = "windows_phone";
 									break;
 							}
 						}

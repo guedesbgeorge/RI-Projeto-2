@@ -40,6 +40,14 @@ public class Smartphone {
 	}
 
 	public String getPrecoRange() {
+		String precoRange = "invalido";
+		for (int i = 0; i < 4000; i+=300)
+		{
+			if(preco >= i + 1 && preco <= i + 300) {
+				precoRange = "Preco[" + (i+1) + "-" + (i+300) +"]";
+			}
+		}
+
 		return precoRange;
 	}
 
@@ -48,6 +56,15 @@ public class Smartphone {
 	}
 
 	public String getBateriaRange() {
+		String bateriaRange = "invalido";
+
+		for (int i = 000; i < 5000; i+=300)
+		{
+			if(bateria >= i + 1 && bateria <= i + 300) {
+				bateriaRange = "Bateria[" + (i+1) + "-" + (i+300) +"]";
+			}
+		}
+
 		return bateriaRange;
 	}
 

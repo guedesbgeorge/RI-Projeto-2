@@ -85,7 +85,7 @@ public class QueryEvaluation {
         //loop over documents
         for(int docID = 0; docID < bancoSmartphones.size(); docID++) {
             double score = 0;
-            for(int i = 1; i <= filteredIndexRows.size(); i++) {
+            for(int i = 0; i < filteredIndexRows.size(); i++) {
                 System.out.println();
                 System.out.println(docID);
                 System.out.println(i);
@@ -164,9 +164,9 @@ public class QueryEvaluation {
     public static void main(String[] args) {
         QueryEvaluation q = new QueryEvaluation();
         ArrayList<String> c = new ArrayList<>();
-        c.add("4G");
-        c.add("WiFi");
-        HashMap<Smartphone, Double> r = q.documentRetrieval(new Query(new Smartphone("samsung galaxy 4s", 3000.0, 1000.0, "Android", c)));
+        c.add("4g");
+        c.add("Wifi");
+        HashMap<Smartphone, Double> r = q.documentRetrieval(new Query(new Smartphone("samsung galaxy 4s", 3000.0, 1000.0, "android", c)));
         System.out.println(r.size() + " resultados");
 
         Iterator it = r.entrySet().iterator();
