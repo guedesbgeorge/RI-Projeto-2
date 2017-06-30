@@ -73,7 +73,11 @@ public class QueryEvaluation {
         for(int i = 0; i < queryPhone.getTerms().size(); i++){
             String term = queryPhone.getTerms().get(i);
             IndexRow indexRow = indexRows.get(term);
-            filteredIndexRows.addElement(indexRow);
+            System.out.println(i);
+            System.out.println(term);
+            if(indexRow != null) {
+                filteredIndexRows.addElement(indexRow);
+            }
         }
 
         System.out.println("tamanho lista = " + filteredIndexRows.size());
@@ -81,10 +85,11 @@ public class QueryEvaluation {
         //loop over documents
         for(int docID = 0; docID < bancoSmartphones.size(); docID++) {
             double score = 0;
-            for(int i = 0; i < filteredIndexRows.size(); i++) {
+            for(int i = 1; i <= filteredIndexRows.size(); i++) {
                 System.out.println();
                 System.out.println(docID);
                 System.out.println(i);
+                System.out.println(filteredIndexRows.elementAt(i));
                 System.out.println(filteredIndexRows.elementAt(i).getWord());
                 TermData termData = filteredIndexRows.elementAt(i).getTermData();
                 if(termData.getDocID() == docID) {
@@ -128,7 +133,9 @@ public class QueryEvaluation {
         for(int i = 0; i < queryPhone.getTerms().size(); i++){
             String term = queryPhone.getTerms().get(i);
             IndexRow indexRow = indexRows.get(term);
-            filteredIndexRows.addElement(indexRow);
+            if(indexRow != null) {
+                filteredIndexRows.addElement(indexRow);
+            }
         }
 
         for(int i = 0; i < filteredIndexRows.size(); i++) {
