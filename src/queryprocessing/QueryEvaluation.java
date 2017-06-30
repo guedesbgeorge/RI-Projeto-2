@@ -19,7 +19,7 @@ public class QueryEvaluation {
     private ArrayList<Smartphone> bancoSmartphones;
 
     private final boolean TFIDF_RANKING = false;
-    private final boolean DOCUMENT_AT_ATIME = true;
+    private final boolean DOCUMENT_AT_ATIME = false;
 
     public QueryEvaluation() {
         BuildInvertedList bil = null;
@@ -37,11 +37,11 @@ public class QueryEvaluation {
             bil.build();
             this.bancoSmartphones = bil.getSmartphones();
             for(int i = 0; i < bancoSmartphones.size(); i++) {
-                System.out.println("nome: " + bancoSmartphones.get(i).getNome());
-                System.out.println("preco: " + bancoSmartphones.get(i).getPreco());
-                System.out.println("so: " + bancoSmartphones.get(i).getSo());
-                System.out.println("bateria: " + bancoSmartphones.get(i).getBateria());
-                System.out.println("conectividades: " + bancoSmartphones.get(i).getConectividades());
+                //System.out.println("nome: " + bancoSmartphones.get(i).getNome());
+                //System.out.println("preco: " + bancoSmartphones.get(i).getPreco());
+                //System.out.println("so: " + bancoSmartphones.get(i).getSo());
+                //System.out.println("bateria: " + bancoSmartphones.get(i).getBateria());
+                //System.out.println("conectividades: " + bancoSmartphones.get(i).getConectividades());
 
             }
         } catch(IOException e) {
@@ -85,11 +85,11 @@ public class QueryEvaluation {
         //loop over documents
         for(int docID = 0; docID < bancoSmartphones.size(); docID++) {
             double score = 0;
-            System.out.println();
-            System.out.println("docID: " + docID);
+            //System.out.println();
+            //System.out.println("docID: " + docID);
             for(int i = 0; i < filteredIndexRows.size(); i++) {
                 IndexRow row = filteredIndexRows.elementAt(i);
-                System.out.println(row.getWord());
+                //System.out.println(row.getWord());
                 if(row.getPosition() < row.getPosting().size()) {
                     TermData termData = row.getTermData();
                     System.out.println("compared to docID " + termData.getDocID());
@@ -107,7 +107,7 @@ public class QueryEvaluation {
             }
             Smartphone doc = bancoSmartphones.get(docID);
             results.put(doc, score);
-            System.out.println("Score: " + score);
+            //System.out.println("Score: " + score);
         }
         normalize(results);
 
@@ -147,7 +147,10 @@ public class QueryEvaluation {
                 TermData termData = postings.get(j);
                 int docID = termData.getDocID();
                 Smartphone doc = bancoSmartphones.get(docID);
+
                 Double oldScore = results.get(doc);
+                System.out.print(doc);
+                System.out.print(oldScore);
                 if(TFIDF_RANKING) {
                     double df = filteredIndexRows.elementAt(i).getPosting().size();
                     results.replace(doc, oldScore + termData.getFrequency()/df);
