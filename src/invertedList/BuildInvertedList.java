@@ -99,15 +99,19 @@ public class BuildInvertedList {
 							c.add("3G");
 						}
 
-						//System.out.println(nome);
-						//System.out.println(preco);
-						//System.out.println(bateria);
-						//System.out.println(so);
-						//System.out.println(c);
+						System.out.println("AAAAAAAAASEFASEFASFA");
+
+						System.out.println(nome);
+						System.out.println(preco);
+						System.out.println(bateria);
+						System.out.println(so);
+						System.out.println(c);
 
 						bancoSmartphones.add(new Smartphone(nome, preco, bateria, so, c));
+						//bancoSmartphones.get(bancoSmartphones.size()).setDisplayBateria(Double.parseDouble(bateria));
+						//bancoSmartphones.get(bancoSmartphones.size()).setDisplayPreco(Double.parseDouble(preco));
 						nome = "";
-						conectividade = "";
+						//conectividade = "";
 						preco = "";
 						so = "";
 						bateria = "";
@@ -165,14 +169,14 @@ public class BuildInvertedList {
 
 		return 0;
 	}
-	
+
 	private void makeInvertedIndexCSV() throws IOException
 	{
 		//System.out.println(this.invertedIndex.toString());
 		this.resultFile.write(this.invertedIndex.toString());
 		this.resultFile.close();
 	}
-	
+
 	private String getProductName(String line)
 	{
 		String aux = line.split(";")[1];
@@ -193,7 +197,7 @@ public class BuildInvertedList {
 			}
 		}
 	}
-	
+
 	private String getOS(String line)
 	{
 		String values = line.split(";")[1];

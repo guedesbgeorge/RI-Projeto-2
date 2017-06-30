@@ -92,7 +92,7 @@ public class QueryEvaluation {
                 //System.out.println(row.getWord());
                 if(row.getPosition() < row.getPosting().size()) {
                     TermData termData = row.getTermData();
-                    System.out.println("compared to docID " + termData.getDocID());
+                    //System.out.println("compared to docID " + termData.getDocID());
                     if(termData.getDocID() == docID) {
                         //update document score
                         if(TFIDF_RANKING) {
@@ -193,16 +193,16 @@ public class QueryEvaluation {
         while(it.hasNext()) {
             Map.Entry<Smartphone, Double> pair = (Map.Entry<Smartphone, Double>) it.next();
             if(pair.getValue().doubleValue() > 0) {
-                System.out.println(pair.getKey().getNome());
-                System.out.println(pair.getKey().getBateriaRange());
-                System.out.println(pair.getKey().getSo());
-                System.out.println(pair.getKey().getPrecoRange());
-                System.out.println(pair.getKey().getConectividades());
-                System.out.println(pair.getValue());
+                //System.out.println(pair.getKey().getNome());
+                //System.out.println(pair.getKey().getBateriaRange());
+                //System.out.println(pair.getKey().getSo());
+                //System.out.println(pair.getKey().getPrecoRange());
+                //System.out.println(pair.getKey().getConectividades());
+                //System.out.println(pair.getValue());
                 total = total + pair.getValue();
-                System.out.println();
+                //System.out.println();
             }
         }
-        System.out.println("Total: "+total);
+        //System.out.println("Total: "+total);
     }
 }

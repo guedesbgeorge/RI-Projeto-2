@@ -20,6 +20,7 @@ public class SearchInterface {
 	}
 	
 	public void pesquisar(String nome, String precoRange, String bateriaRange, String so, JSArray conectividade) {
+		System.out.println("---QUERY---");
 		System.out.println("Nome: " + nome);
 		System.out.println("Preço: R$ " + precoRange);
 		System.out.println("Bateria (mAh): " + bateriaRange);
@@ -42,9 +43,9 @@ public class SearchInterface {
 		}
 		System.out.println("Conectividade: " + conect);
 
-		ArrayList<String> c = new ArrayList<>();
-		c.add("4g");
-		c.add("Wifi");
+		//ArrayList<String> c = new ArrayList<>();
+		//c.add("4g");
+		//c.add("Wifi");
 		//Smartphone queryPhone = new Smartphone("samsung galaxy 4s", 3000.0, 1000.0, "android", c);
 		Smartphone queryPhone = new Smartphone(nome, precoRange, bateriaRange, so.toLowerCase(), conectividades);
 		QueryEvaluation queryEvaluation = new QueryEvaluation();
@@ -57,19 +58,28 @@ public class SearchInterface {
 	}
 	
 	public void fillResults(HashMap<Smartphone, Double> results) {
-		System.out.println(results.size());
+		System.out.println("NUMERO RESULTADOS" + results.size());
 		List<Smartphone> smartphonesSorted = results.entrySet().stream()
 			    						.sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
 			 							.map(Map.Entry::getKey)
 			 							.collect(Collectors.toList());
 		System.out.println(smartphonesSorted.size());
 		for(int i = 0; i < smartphonesSorted.size(); i++) {
-			System.out.println(smartphonesSorted.get(i));
+			//System.out.println(smartphonesSorted.get(i));
 		}
 
 		ArrayList<Smartphone> smartphones = new ArrayList<>();
 		for(int i = 0; (i < 10 || i < smartphones.size()); i++) {
+			System.out.println("RESULTADO " + i);
 			smartphones.add(smartphonesSorted.get(i));
+
+			System.out.println(smartphones.get(i));
+		}
+
+		try {
+			smartphoneListToString(smartphones);
+		}catch (Exception e) {
+			System.out.println("erro");
 		}
 
 		browser.executeJavaScript("fillResults(" + smartphoneListToString(smartphones) + ")");
@@ -77,9 +87,25 @@ public class SearchInterface {
 	
 	private String smartphoneListToString(List<Smartphone> smartphones) {
 		String list = "[";
+
+
+		System.out.println("SIZE");
+		System.out.println(smartphones.size());
+
 		for(int i = 0; i < smartphones.size(); i++) {
+
+			System.out.println(i);
+
 			Smartphone smartphone = smartphones.get(i);
-			list += "['" + smartphone.getNome() + "', '" + smartphone.getPreco() + "', '" + smartphone.getBateria() + "', '" + smartphone.getSo() + "', ";
+			System.out.println(smartphone);
+			String precoString = smartphone.getPrecoRange().substring(6, smartphone.getPrecoRange().length()-1);
+			String bateriaString = smartphone.getPrecoRange();
+			if(!bateriaString.equals("invalido")) {
+				bateriaString = bateriaString.substring(6, smartphone.getBateriaRange().length()-1);
+			}
+			System.out.println(precoString);
+			System.out.println(bateriaString);
+			list += "['" + smartphone.getNome().replace("\'", "") + "', '" + precoString + "', '" + bateriaString + "', '" + smartphone.getSo() + "', ";
 			List<String> conectividades = smartphone.getConectividades();
 			list += "['";
 			for(int j = 0; j < conectividades.size(); j++) {
@@ -94,6 +120,8 @@ public class SearchInterface {
 				list += ", ";
 		}
 		list += "]";
+		System.out.println("LISTA");
+		System.out.println(list);
 		return list;
 	}
 }

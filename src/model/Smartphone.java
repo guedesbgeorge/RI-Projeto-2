@@ -11,6 +11,9 @@ public class Smartphone {
 	String so;
 	ArrayList<String> conectividades;
 
+	double displayBateria;
+	double displayPreco;
+
 	public Smartphone(String nome, String precoRange, String bateriaRange, String so, ArrayList<String> conectividades) {
 		this.nome = nome;
 		this.precoRange = precoRange;
@@ -19,6 +22,9 @@ public class Smartphone {
 		this.bateria = 0.0;
 		this.so = so;
 		this.conectividades = conectividades;
+
+		this.displayBateria = 0.0;
+		this.displayPreco = 0.0;
 	}
 
 	public Smartphone(String nome, double preco, double bateria, String so, ArrayList<String> conectividades) {
@@ -29,6 +35,9 @@ public class Smartphone {
 		this.bateria = bateria;
 		this.so = so;
 		this.conectividades = conectividades;
+
+		this.displayBateria = 0.0;
+		this.displayPreco = 0.0;
 	}
 
 	public String getNome() {
@@ -114,5 +123,21 @@ public class Smartphone {
 
 	public String toString(){
 		return nome + " " + preco + " " + bateria + " " + so;
+	}
+
+	public double getDisplayBateria() {
+		return displayBateria;
+	}
+
+	public void setDisplayPreco(double preco) {
+		this.displayPreco = preco;
+	}
+
+	public double getDisplayPreco() {
+		return displayPreco;
+	}
+
+	public void setDisplayBateria(double bateria) {
+		this.displayBateria = bateria;
 	}
 }
